@@ -1,0 +1,13 @@
+{
+    "image_path": "Icons/cancel.jpeg",
+    "settings": {
+        "action": "Redo",
+        "delay": "100ms",
+        "delay2": "100ms",
+        "delay3": "",
+        "combobox1": "Ctrl",
+        "combobox2": "Shift",
+        "combobox3": "Z",
+        "checkbox": false
+    }
+}

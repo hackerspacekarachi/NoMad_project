@@ -1,0 +1,13 @@
+{
+    "image_path": "I:/QT NoMad Project/Icons/volume-up.png",
+    "settings": {
+        "action": "Full Volume",
+        "delay": "250ms",
+        "delay2": "",
+        "delay3": "",
+        "combobox1": "\u00a4  \u2191",
+        "combobox2": "22",
+        "combobox3": "Keystroke 3",
+        "checkbox": true
+    }
+}

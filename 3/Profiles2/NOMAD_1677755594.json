@@ -1,0 +1,13 @@
+{
+    "image_path": "C:/Users/Dell/HACKERSPACE/Keyboard_proj/2/Icons/cancel.jpeg",
+    "settings": {
+        "action": "check5",
+        "delay": "100ms",
+        "delay2": "100ms",
+        "delay3": "100ms",
+        "combobox1": "\u00a4  Home",
+        "combobox2": "Shift",
+        "combobox3": "32",
+        "checkbox": false
+    }
+}

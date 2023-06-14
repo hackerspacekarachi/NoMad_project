@@ -1,0 +1,13 @@
+{
+    "image_path": "Icons/repeat.jpeg",
+    "settings": {
+        "action": "Undo",
+        "delay": "100ms",
+        "delay2": "",
+        "delay3": "",
+        "combobox1": "Ctrl",
+        "combobox2": "Z",
+        "combobox3": "Keystroke 3",
+        "checkbox": false
+    }
+}

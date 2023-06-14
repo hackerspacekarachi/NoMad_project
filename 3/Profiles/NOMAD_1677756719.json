@@ -1,0 +1,13 @@
+{
+    "image_path": "C:/Users/Dell/Downloads/sceneries/00000000.jpg",
+    "settings": {
+        "action": "abcd",
+        "delay": "10ms",
+        "delay2": "10ms",
+        "delay3": "10ms",
+        "combobox1": "Alphanumerics",
+        "combobox2": "22",
+        "combobox3": "32",
+        "checkbox": false
+    }
+}

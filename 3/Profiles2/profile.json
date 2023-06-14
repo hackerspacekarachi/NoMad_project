@@ -1,0 +1,13 @@
+{
+    "image_path": "C:/Users/Dell/HACKERSPACE/Keyboard_proj/2/Icons/repeat.png",
+    "settings": {
+        "action": "check1",
+        "delay": "20 ms",
+        "delay2": "20 ms",
+        "delay3": "",
+        "combobox1": "Alphanumerics",
+        "combobox2": "21",
+        "combobox3": "Keystroke 3",
+        "checkbox": true
+    }
+}
