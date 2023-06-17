@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from CreateAction import Ui_CreateAction
 from PIL import Image
-import os, sys, json
+import os, sys, json, time
 import ctypes
 user32 = ctypes.windll.user32
 user32.SetProcessDPIAware()
@@ -12,7 +12,7 @@ class Ui_NoMad(object):
     a, b = 0, 0
     def openCreateAction(self):
         self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114))
-        self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, NoMad.frameGeometry().height()-280))
+        # self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, NoMad.frameGeometry().height()-280))
 
     def closeCreateAction(self):
         self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 0, 0))
@@ -21,8 +21,17 @@ class Ui_NoMad(object):
     def openOptions(self):
         self.options.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114))
 
+        # update create action size
+        self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114))
+        # self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, NoMad.frameGeometry().height()-280))
+
     def closeOptions(self):
         self.options.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 0, 0))
+
+        # update create action size
+        self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114))
+        # self.profiles()
+        # self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, NoMad.frameGeometry().height()-280))
 
 
     def openWindow2(self):
@@ -80,13 +89,13 @@ class Ui_NoMad(object):
 
     def action(self, var, place, num):
 
-        self.pushButton = QtWidgets.QPushButton(place)
-        self.pushButton.setGeometry(QtCore.QRect(num[0], num[1], 51, 51))
-        self.pushButton.setMinimumSize(QtCore.QSize(0, 0))
-        self.pushButton.setMaximumSize(QtCore.QSize(51, 51))
+        self.pushButton_c = QtWidgets.QPushButton(place)
+        self.pushButton_c.setGeometry(QtCore.QRect(num[0], num[1], 51, 51))
+        self.pushButton_c.setMinimumSize(QtCore.QSize(0, 0))
+        self.pushButton_c.setMaximumSize(QtCore.QSize(51, 51))
         font = QtGui.QFont()
-        self.pushButton.setFont(font)
-        self.pushButton.setStyleSheet("\n"
+        self.pushButton_c.setFont(font)
+        self.pushButton_c.setStyleSheet("\n"
         "\n"
         "QPushButton {\n"
         "  /* Set the background color and border for the button */\n"
@@ -110,19 +119,55 @@ class Ui_NoMad(object):
         "}\n"
         "\n"
         "")
-        self.pushButton.setText("")
+        self.pushButton_c.setText("")
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap(var['image_path']), QtGui.QIcon.Normal, QtGui.QIcon.On)
-        self.pushButton.setIcon(icon5)
-        self.pushButton.setIconSize(QtCore.QSize(35, 35))
-        self.pushButton.setToolTip(var['settings']['action'])
+        self.pushButton_c.setIcon(icon5)
+        self.pushButton_c.setIconSize(QtCore.QSize(35, 35))
+        self.pushButton_c.setToolTip(var['settings']['action'])
+
+    def profiles(self):
+        # onlyfiles = next(os.walk("Profiles"))[2] #directory is your directory path as string
+        # print(len(onlyfiles))
+
+        if not os.path.exists(self.resource_path('Profiles')):
+            os.makedirs('Profiles')
+        count = 0
+        for file_name in os.listdir(self.resource_path('Profiles/')):
+            if file_name.endswith(".json"):
+                count +=1
+            else:
+                pass
+        
+        dimens = self.buttonz(count)
+        var = []
+        for file_name in os.listdir('Profiles/'):
+            if file_name.endswith(".json"):
+
+                with open(self.resource_path('Profiles/'+file_name)) as p:
+                    var.append(json.load(p))
+            else:
+                pass
+
+        if len(var) == 0 and len(dimens) == 0:
+            pass
+        else:
+            for a,b in zip(var,dimens):
+                self.action(a, self.CreateAction, b)
 
     def hide_frame_5(self):
-        self.frame_5.hide()
+        self.options_5.hide()
         self.addKeystrokeButton_o.hide()
 
     def hide_button(self):
         self.addKeystrokeButton_o.setVisible(False)
+
+    def show_dialog(self):
+        dialog = QtWidgets.QMessageBox()
+        dialog.setText('Profile has been saved')
+        dialog.setWindowTitle('NOMAD')
+        dialog.setIcon(QtWidgets.QMessageBox.Warning)
+        dialog.exec_()
 
     def save_profile(self):
         # Get the relevant information from the UI widgets
@@ -131,27 +176,32 @@ class Ui_NoMad(object):
                 QtWidgets.QMessageBox.warning(self.centralwidget, "Warning", "Please select an image first.")
                 return
 
-        image_path = self.image_path  # get the original image file path
-        file_name, ext = os.path.splitext(image_path)  # get the file name and extension
-        png_path = f"{file_name}.png"  # set the PNG file path with the original file name
-        self.image_label.pixmap().save(png_path, "PNG")  # save the image as a PNG file
-        settings = {"action": self.lineEdit.text(),
-                "delay": self.lineEdit_2.text(),
-                "delay2": self.lineEdit_3.text(),
-                "delay3": self.lineEdit_4.text(),
-                "checkbox": self.checkBox.isChecked()}
+        else:
 
-        # Create a dictionary with the image path and settings
-        profile = {"image_path": image_path, "settings": settings}
+                image_path = self.image_path  # get the original image file path
+                # file_name, ext = os.path.splitext(image_path)  # get the file name and extension
+                png_path = 'Profiles/icon/'+image_path.split('/')[-1]  # set the IMG file path with the original file name
+                self.image_label.pixmap().save(png_path, "PNG")  # save the image as a PNG file
+                settings = {"action": self.lineEdit_o.text(),
+                        "delay": self.lineEdit_2o.text(),
+                        "delay2": self.lineEdit_3o.text(),
+                        "delay3": self.lineEdit_4o.text(),
+                        "checkbox": self.checkBox_o.isChecked()}
+
+                # Create a dictionary with the image path and settings
+                profile = {"image_path": image_path, "settings": settings}
+                # print('Profiles/icon/'+image_path.split('/')[-1])
 
 
-        # Write the dictionary to a JSON file inside the "Profiles" folder
-        folder_path = "Profiles"
-        os.makedirs(folder_path, exist_ok=True)  # create the folder if it doesn't exist
-        file_name = "NOMAD_" + str(int(time.time())) + ".json"
-        file_path = os.path.join(folder_path, file_name)
-        with open(file_path, 'w') as file:
-                json.dump(profile, file, indent=4)
+                # Write the dictionary to a JSON file inside the "Profiles" folder
+                folder_path = "Profiles"
+                os.makedirs(folder_path, exist_ok=True)  # create the folder if it doesn't exist
+                file_name = "NOMAD_" + str(int(time.time())) + ".json"
+                file_path = os.path.join(folder_path, file_name)
+                with open(file_path, 'w') as file:
+                        json.dump(profile, file, indent=4)
+
+                self.show_dialog()
 
 
     def pushButton_handler(self):
@@ -159,18 +209,11 @@ class Ui_NoMad(object):
         if filename:
             pixmap = QtGui.QPixmap(filename)
             icon = QtGui.QIcon(pixmap)
-            self.pushButton.setIcon(icon)
-            self.pushButton.setIconSize(QtCore.QSize(64, 64))
+            self.pushButton_o.setIcon(icon)
+            self.pushButton_o.setIconSize(QtCore.QSize(64, 64))
             self.image_label.setPixmap(pixmap)  # set the loaded pixmap to the image_label
             self.image_path = filename  # update the image_path attribute with the selected file path
-
-
-    def show_dialog(self):
-        dialog = QtWidgets.QMessageBox()
-        dialog.setText('Profile has been saved')
-        dialog.setWindowTitle('NOMAD')
-        dialog.setIcon(QtWidgets.QMessageBox.Warning)
-        dialog.exec_()   
+   
 
     def add_menu(self, data, menu_obj):
             if isinstance(data, dict):
@@ -186,6 +229,11 @@ class Ui_NoMad(object):
             else:
                 action = menu_obj.addAction(data)
                 action.setIconVisibleInMenu(False)
+
+    def menu_triggered(self, binary, text):
+        binary.setText(text)
+        menu_obj = binary.menu()
+        menu_obj.close()
         
         
     def setupUi(self, NoMad):
@@ -230,30 +278,6 @@ class Ui_NoMad(object):
         self.CreateAction.setObjectName("CreateAction")
         self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-327, 1, 0,0)) # -421, -72 //400, NoMad.frameGeometry().height()-39
 
-        if not os.path.exists(self.resource_path('Profiles')):
-            os.makedirs('Profiles')
-        count = 0
-        for file_name in os.listdir(self.resource_path('Profiles/')):
-            if file_name.endswith(".json"):
-                count +=1
-            else:
-                pass
-        
-        dimens = self.buttonz(count)
-        var = []
-        for file_name in os.listdir('Profiles/'):
-            if file_name.endswith(".json"):
-
-                with open(self.resource_path('Profiles/'+file_name)) as p:
-                    var.append(json.load(p))
-            else:
-                pass
-
-        if len(var) == 0 and len(dimens) == 0:
-            pass
-        else:
-            for a,b in zip(var,dimens):
-                self.action(a, self.CreateAction, b)
 
         self.pushButton_4c = QtWidgets.QPushButton(self.CreateAction)
         self.pushButton_4c.setGeometry(QtCore.QRect(190, 50, 88, 32))
@@ -281,7 +305,7 @@ class Ui_NoMad(object):
 "}")
         self.pushButton_4c.setCheckable(True)
         self.pushButton_4c.setObjectName("pushButton_4c")
-        self.buttonGroup_c = QtWidgets.QButtonGroup(NoMad)
+        self.buttonGroup_c = QtWidgets.QButtonGroup(self.CreateAction)
         self.buttonGroup_c.setObjectName("buttonGroup_c")
         self.buttonGroup_c.addButton(self.pushButton_4c)
         self.pushButton_3c = QtWidgets.QPushButton(self.CreateAction)
@@ -432,52 +456,67 @@ class Ui_NoMad(object):
         self.label_c.setStyleSheet("font: 8pt \"Work Sans Medium\";")
         self.label_c.setObjectName("label_c")
 
-        self.verticalScrollBar = QtWidgets.QScrollBar(self.CreateAction)
-        self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, 331))
-        self.verticalScrollBar.setStyleSheet("/*Vertical Scroll Bar*/\n"
-"QScrollBar:vertical {\n"
-"    border:none;\n"
-"    background-color: lightgrey;\n"
-"    width: 0px;\n"
-"    margin: 15px 0 8px 0;\n"
-"    border-radius: 8px;\n"
-"}\n"
-"\n"
-"/*Handle Bar Vertical*/\n"
-"QScrollBar::handle:vertical {\n"
-"    background-color: #3c3c3c;\n"
-"    min-height: 150px;\n"
-"    border-radius: 8px;\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical:hover {\n"
-"    background-color: #3c3c3c;\n"
-"}\n"
-"\n"
-"QScrollBar::handle:vertical:pressed {\n"
-"    background-color: #3c3c3c;\n"
-"}\n"
-"\n"
-"/*BTN Top - Scroll Bar*/\n"
-"QScrollBar::sub-line:vertical {\n"
-"    border:none;\n"
-"    background-color: lightgrey;\n"
-"    height: 0px;\n"
-"    border-top-left-radius: 7px;\n"
-"    border-top-right-radius: 7px;\n"
-"}\n"
-"\n"
-"QScrollBar::sub-line:vertical:hover {\n"
-"    background-color: lightgrey;\n"
-"}\n"
-"\n"
-"QScrollBar::sub-line:vertical:pressed {\n"
-"    background-color: lightgrey;\n"
-"}\n"
-"\n"
-"")
-        self.verticalScrollBar.setOrientation(QtCore.Qt.Vertical)
-        self.verticalScrollBar.setObjectName("verticalScrollBar")
+        self.profiles() # Profile icons
+
+        self.scrollArea = QtWidgets.QFrame(self.CreateAction)  # Vector Art
+        self.scrollArea.setGeometry(QtCore.QRect(115, 620, 0, 0))
+        self.scrollArea.setStyleSheet("background-color: rgb(25, 55, 215);\n"
+"font: 8pt \"Arial\";\n"
+"color: rgb(0, 0, 0);\n"
+"border-style: outset;\n"
+"border-width: 2px;\n"
+"border-radius: 12px;"
+"border-color: rgb(55, 55, 25);")
+        self.scrollArea.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.scrollArea.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.scrollArea.setObjectName("frame_5")
+
+#         self.verticalScrollBar = QtWidgets.QScrollBar(self.CreateAction)
+#         self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, 331))
+#         self.verticalScrollBar.setStyleSheet("/*Vertical Scroll Bar*/\n"
+# "QScrollBar:vertical {\n"
+# "    border:none;\n"
+# "    background-color: lightgrey;\n"
+# "    width: 0px;\n"
+# "    margin: 15px 0 8px 0;\n"
+# "    border-radius: 8px;\n"
+# "}\n"
+# "\n"
+# "/*Handle Bar Vertical*/\n"
+# "QScrollBar::handle:vertical {\n"
+# "    background-color: #3c3c3c;\n"
+# "    min-height: 150px;\n"
+# "    border-radius: 8px;\n"
+# "}\n"
+# "\n"
+# "QScrollBar::handle:vertical:hover {\n"
+# "    background-color: #3c3c3c;\n"
+# "}\n"
+# "\n"
+# "QScrollBar::handle:vertical:pressed {\n"
+# "    background-color: #3c3c3c;\n"
+# "}\n"
+# "\n"
+# "/*BTN Top - Scroll Bar*/\n"
+# "QScrollBar::sub-line:vertical {\n"
+# "    border:none;\n"
+# "    background-color: lightgrey;\n"
+# "    height: 0px;\n"
+# "    border-top-left-radius: 7px;\n"
+# "    border-top-right-radius: 7px;\n"
+# "}\n"
+# "\n"
+# "QScrollBar::sub-line:vertical:hover {\n"
+# "    background-color: lightgrey;\n"
+# "}\n"
+# "\n"
+# "QScrollBar::sub-line:vertical:pressed {\n"
+# "    background-color: lightgrey;\n"
+# "}\n"
+# "\n"
+# "")
+#         self.verticalScrollBar.setOrientation(QtCore.Qt.Vertical)
+#         self.verticalScrollBar.setObjectName("verticalScrollBar")
 
         ###########################################################################
         ########################### CREATE_ACTION #################################
@@ -495,6 +534,12 @@ class Ui_NoMad(object):
         self.options.setObjectName("options")
         self.options.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-327, 1, 0,0))
 
+        # Define the image label object and set its properties
+        self.image_label = QtWidgets.QLabel(self.options)
+        self.image_label.setGeometry(QtCore.QRect(110, 110, 0, 0))
+        # self.image_label.setText("")
+        # self.image_label.setScaledContents(True)
+        self.image_path = None  # add a new attribute to store the file path of the selected image
 
         self.pushButton_20o = QtWidgets.QPushButton(self.options)
         self.pushButton_20o.setGeometry(QtCore.QRect(280, 50, 88, 32))
@@ -522,7 +567,7 @@ class Ui_NoMad(object):
 "}")
         self.pushButton_20o.setCheckable(True)
         self.pushButton_20o.setObjectName("pushButton_20o")
-        self.buttonGroup_o= QtWidgets.QButtonGroup(NoMad)
+        self.buttonGroup_o= QtWidgets.QButtonGroup(self.options)
         self.buttonGroup_o.setObjectName("buttonGroup_o")
         self.buttonGroup_o.addButton(self.pushButton_20o)
         self.pushButton_17o = QtWidgets.QPushButton(self.options)
@@ -860,7 +905,8 @@ class Ui_NoMad(object):
         self.lineEdit_3o.setObjectName("lineEdit_3o")
         self.pushButton_2o = QtWidgets.QPushButton(self.options)
         self.pushButton_2o.setGeometry(QtCore.QRect(10, 500, 361, 31))
-        self.pushButton_2o.clicked.connect(self.save_profile)        
+        self.pushButton_2o.clicked.connect(self.save_profile)
+        # self.pushButton_2o.clicked.connect(self.profiles) 
         font = QtGui.QFont()
         font.setFamily("Work Sans Light")
         self.pushButton_2o.setFont(font)
@@ -1048,16 +1094,16 @@ class Ui_NoMad(object):
         self.boxLayout.addStretch()
 
         self.frame_2 = QtWidgets.QFrame(self.frame)
-        self.frame_2.setGeometry(QtCore.QRect(0, 180, 1051, 311))
+        self.frame_2.setGeometry(QtCore.QRect(0, 180, 1047, 313))
         self.frame_2.setStyleSheet("background-color: rgb(0, 0, 0);\n"
 "font: 8pt \"Arial\";\n"
 "color: rgb(255, 255, 255);\n"
 "border-style: outset;\n"
-"border-width: 2px;\n"
+"border-width: 4px;\n"
 "border-radius: 20px;")
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_2.setMinimumSize(QtCore.QSize(1051, 311))
-        self.frame_2.setMaximumSize(QtCore.QSize(1051, 311))
+        self.frame_2.setMinimumSize(QtCore.QSize(1047, 313))
+        self.frame_2.setMaximumSize(QtCore.QSize(1047, 313))
         # self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
         self.boxLayout.addWidget(self.frame_2,0,QtCore.Qt.AlignCenter) #,0,QtCore.Qt.AlignCenter
@@ -1100,14 +1146,14 @@ class Ui_NoMad(object):
         self.pushButton.setStyleSheet("\n"
 "QPushButton:checked {\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1130,14 +1176,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1160,14 +1206,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1190,14 +1236,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1220,14 +1266,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1250,14 +1296,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1280,14 +1326,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1310,14 +1356,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 1px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1340,14 +1386,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1370,14 +1416,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1400,14 +1446,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  font: 5pt;\n"
 "  background-color: rgb(51,51,51);\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1437,14 +1483,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1467,14 +1513,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1497,14 +1543,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1528,14 +1574,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1558,14 +1604,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1588,14 +1634,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1618,14 +1664,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1648,14 +1694,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1678,14 +1724,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1708,14 +1754,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1738,14 +1784,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1768,14 +1814,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1798,14 +1844,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1828,14 +1874,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1858,14 +1904,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1888,14 +1934,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1918,14 +1964,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1948,14 +1994,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -1978,14 +2024,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2008,14 +2054,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2038,14 +2084,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2068,14 +2114,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2098,14 +2144,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2128,14 +2174,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2159,14 +2205,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2189,14 +2235,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2219,14 +2265,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2249,14 +2295,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2279,14 +2325,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2309,14 +2355,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2339,14 +2385,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2369,14 +2415,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2399,14 +2445,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2429,14 +2475,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2459,14 +2505,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2489,14 +2535,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2519,14 +2565,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2549,14 +2595,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2579,14 +2625,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2609,14 +2655,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2639,14 +2685,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2669,14 +2715,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2699,14 +2745,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2760,14 +2806,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2790,14 +2836,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -2820,14 +2866,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -3234,14 +3280,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -3264,14 +3310,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -3293,14 +3339,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -3323,14 +3369,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -3353,14 +3399,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -3383,14 +3429,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -3413,14 +3459,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -3443,14 +3489,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -3473,14 +3519,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -3503,14 +3549,14 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 15px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
 "  /* Set the background color and border for the button */\n"
 "  background-color: rgb(51,51,51);\n"
 "  font: 5pt;\n"
-"  border-radius: 15px;\n"
+"  border-radius: 12px;\n"
 "  border-style: none;\n"
 "  color: white;\n"
 "}\n"
@@ -3588,6 +3634,7 @@ class Ui_NoMad(object):
         self.commandLinkButton_6.setObjectName("commandLinkButton_6")
         self.Lay_f8.addWidget(self.commandLinkButton_6,0,QtCore.Qt.AlignLeft)
 
+        # https://stackoverflow.com/questions/49828339/how-to-properly-manage-text-and-icon-with-qtoolbutton
         self.pushButton_90 = QtWidgets.QPushButton(self.frame_8, clicked = lambda: self.Vect_art())
         self.pushButton_90.setGeometry(QtCore.QRect(104, 15, 17, 17)) #40
         icon = QtGui.QIcon()
@@ -4018,7 +4065,7 @@ class Ui_NoMad(object):
         self.lineEdit_4o.setPlaceholderText(_translate("NoMad", "+ add delay"))
         self.addKeystrokeButton_o.setText(_translate("NoMad", "+ Add Keystroke"))
         self.pushButton_o.clicked.connect(self.pushButton_handler)
-        self.pushButton_2o.clicked.connect(self.show_dialog)
+        # self.pushButton_2o.clicked.connect(self.show_dialog)
 
 
 if __name__ == "__main__":

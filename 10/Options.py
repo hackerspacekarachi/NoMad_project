@@ -50,9 +50,9 @@ class Ui_Options(object):
 
         # Define the image label object and set its properties
         self.image_label = QtWidgets.QLabel(Options)
-        self.image_label.setGeometry(QtCore.QRect(10, 10, 200, 200))
-        self.image_label.setText("")
-        self.image_label.setScaledContents(True)
+        # self.image_label.setGeometry(QtCore.QRect(10, 10, 200, 200))
+        # self.image_label.setText("")
+        # self.image_label.setScaledContents(True)
         self.image_path = ""  # add a new attribute to store the file path of the selected image
 
 
@@ -950,7 +950,7 @@ class Ui_Options(object):
             icon = QIcon(pixmap)
             self.pushButton.setIcon(icon)
             self.pushButton.setIconSize(QSize(64, 64))
-            self.image_label.setPixmap(pixmap)  # set the loaded pixmap to the image_label
+        #     self.image_label.setPixmap(pixmap)  # set the loaded pixmap to the image_label
             self.image_path = filename  # update the image_path attribute with the selected file path
 
     def show_dialog(self):
