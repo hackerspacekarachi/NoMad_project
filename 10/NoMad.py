@@ -12,6 +12,7 @@ class Ui_NoMad(object):
     a, b = 0, 0
     def openCreateAction(self):
         self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114))
+        self.profiles_area.setGeometry(QtCore.QRect(0, 190, 370, NoMad.frameGeometry().height()-300))
         # self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, NoMad.frameGeometry().height()-280))
 
     def closeCreateAction(self):
@@ -23,6 +24,7 @@ class Ui_NoMad(object):
 
         # update create action size
         self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114))
+        self.profiles_area.setGeometry(QtCore.QRect(0, 190, 370, NoMad.frameGeometry().height()-300))
         # self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, NoMad.frameGeometry().height()-280))
 
     def closeOptions(self):
@@ -30,6 +32,7 @@ class Ui_NoMad(object):
 
         # update create action size
         self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114))
+        self.profiles_area.setGeometry(QtCore.QRect(0, 190, 370, NoMad.frameGeometry().height()-300))
         # self.profiles()
         # self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, NoMad.frameGeometry().height()-280))
 
@@ -64,7 +67,7 @@ class Ui_NoMad(object):
         count2 = 0
         xx = [20, 80, 140, 200, 260]
         x = []
-        y = 190
+        y = 0  #190
         max_iter = 1200
 
         # Number of x
@@ -153,7 +156,7 @@ class Ui_NoMad(object):
             pass
         else:
             for a,b in zip(var,dimens):
-                self.action(a, self.CreateAction, b)
+                self.action(a, self.profiles_area_2, b)
 
     def hide_frame_5(self):
         self.options_5.hide()
@@ -272,7 +275,44 @@ class Ui_NoMad(object):
         ###########################################################################
         
         self.CreateAction = QtWidgets.QFrame(self.frame)
-        self.CreateAction.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.CreateAction.setStyleSheet("QFrame { background-color: rgb(255, 255, 255);\n"
+                                        "} \n"
+                                        "\n"
+                                        " QScrollBar:vertical {\n"
+                                        "    border: none;\n"
+                                        "    background: lightgrey;\n"
+                                        "    width: 14px;\n"
+                                        "    margin: 15px 0 15px 0;\n"
+                                        "    border-radius: 7px;\n"
+                                        " }\n"
+                                        "/*  HANDLE BAR VERTICAL */\n"
+                                        "QScrollBar::handle:vertical {    \n"
+                                        "    background-color: #3c3c3c;\n"
+                                        "    min-height: 150px;\n"
+                                        "    border-radius: 7px;\n"
+                                        "}\n"
+                                        "QScrollBar::handle:vertical:hover{    \n"
+                                        "    background-color: #3c3c3c;\n"
+                                        "}\n"
+                                        "QScrollBar::handle:vertical:pressed {    \n"
+                                        "    background-color: #3c3c3c;\n"
+                                        "}\n"
+                                        "\n"
+                                        "/* BTN TOP - SCROLLBAR */\n"
+                                        "QScrollBar::sub-line:vertical {\n"
+                                        "    border: none;\n"
+                                        "    background-color: lightgrey;\n"
+                                        "    height: 15px;\n"
+                                        "    border-top-left-radius: 7px;\n"
+                                        "    border-top-right-radius: 7px;\n"
+                                        "}\n"
+                                        "QScrollBar::sub-line:vertical:hover {    \n"
+                                        "    background-color: lightgrey;\n"
+                                        "}\n"
+                                        "QScrollBar::sub-line:vertical:pressed {    \n"
+                                        "    background-color: lightgrey;\n"
+                                        "}\n"
+                                        "\n")
         self.CreateAction.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.CreateAction.setFrameShadow(QtWidgets.QFrame.Raised)
         self.CreateAction.setObjectName("CreateAction")
@@ -456,20 +496,42 @@ class Ui_NoMad(object):
         self.label_c.setStyleSheet("font: 8pt \"Work Sans Medium\";")
         self.label_c.setObjectName("label_c")
 
-        self.profiles() # Profile icons
+        self.profiles_area = QtWidgets.QWidget(self.CreateAction)
+        self.profiles_area.setGeometry(QtCore.QRect(0, 190, 370, 320))
+        self.profiles_area.setStyleSheet("background-color: no color;")
+        self.profiles_area.setObjectName("profiles_area")
 
-        self.scrollArea = QtWidgets.QFrame(self.CreateAction)  # Vector Art
-        self.scrollArea.setGeometry(QtCore.QRect(115, 620, 0, 0))
-        self.scrollArea.setStyleSheet("background-color: rgb(25, 55, 215);\n"
-"font: 8pt \"Arial\";\n"
-"color: rgb(0, 0, 0);\n"
-"border-style: outset;\n"
-"border-width: 2px;\n"
-"border-radius: 12px;"
-"border-color: rgb(55, 55, 25);")
-        self.scrollArea.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.scrollArea.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.scrollArea.setObjectName("frame_5")
+        self.verticalLayout_c = QtWidgets.QVBoxLayout(self.profiles_area)
+        self.verticalLayout_c.setObjectName("verticalLayout_c")
+        self.verticalLayout_c.setContentsMargins(0,0,0,0)
+        self.scrollArea_c = QtWidgets.QScrollArea(self.profiles_area)
+        self.scrollArea_c.setStyleSheet("QScrollArea {\n"
+                                        "background-color: no color;\n"
+                                        "border: none;\n"
+                                        "}\n"
+                                        "QScrollBar::handle:vertical {\n"
+                                        "  border: none;\n"
+                                        "  background-color: rgb(59, 59, 90);\n"
+                                        "}")
+        self.scrollArea_c.setWidgetResizable(True)
+        self.scrollArea_c.setObjectName("scrollArea_c")
+        self.scrollAreaWidgetContents_c = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents_c.setGeometry(QtCore.QRect(0, 0, 424, 45665))
+        self.scrollAreaWidgetContents_c.setObjectName("scrollAreaWidgetContents_c")
+        self.verticalLayout_2c = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_c)
+        self.verticalLayout_2c.setObjectName("verticalLayout_2")
+        self.verticalLayout_2c.setContentsMargins(0,0,0,0)
+        self.profiles_area_2 = QtWidgets.QFrame(self.scrollAreaWidgetContents_c)
+        self.profiles_area_2.setMinimumSize(QtCore.QSize(0, 45647))
+        self.profiles_area_2.setStyleSheet("background-color: white;")
+        self.profiles_area_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.profiles_area_2.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.profiles_area_2.setObjectName("profiles_area_2")
+        self.verticalLayout_2c.addWidget(self.profiles_area_2)
+        self.scrollArea_c.setWidget(self.scrollAreaWidgetContents_c)
+        self.verticalLayout_c.addWidget(self.scrollArea_c)
+
+        self.profiles() # Profile icons
 
 #         self.verticalScrollBar = QtWidgets.QScrollBar(self.CreateAction)
 #         self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, 331))
@@ -3863,6 +3925,7 @@ class Ui_NoMad(object):
 
         
         self.CreateAction.raise_()
+        # self.scrollArea.raise_()
         self.options.raise_()
         self.pushButton_47.raise_()
         self.pushButton_23.raise_()
