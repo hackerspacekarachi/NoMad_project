@@ -37,7 +37,7 @@ class Ui_NoMad(object):
         # self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, NoMad.frameGeometry().height()-280))
 
 
-    def openWindow2(self):
+    def openWindow(self):
         self.error_dialog.showMessage('Panel under Development!')
 
     def resource_path(self, relative_path):
@@ -144,7 +144,7 @@ class Ui_NoMad(object):
         
         dimens = self.buttonz(count)
         var = []
-        for file_name in os.listdir('Profiles/'):
+        for file_name in os.listdir(self.resource_path('Profiles/')):
             if file_name.endswith(".json"):
 
                 with open(self.resource_path('Profiles/'+file_name)) as p:
@@ -1201,7 +1201,7 @@ class Ui_NoMad(object):
 
 
 
-        self.pushButton = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton.setGeometry(QtCore.QRect(104, 16, 53, 53))
         self.pushButton.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton.setMaximumSize(QtCore.QSize(53, 53))
@@ -1230,7 +1230,7 @@ class Ui_NoMad(object):
         self.pushButton.setObjectName("pushButton")
         self.buttonGroup.addButton(self.pushButton)
 
-        self.pushButton_3 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_3 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_3.setGeometry(QtCore.QRect(162, 16, 53, 53))
         self.pushButton_3.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_3.setMaximumSize(QtCore.QSize(53, 53))
@@ -1260,7 +1260,7 @@ class Ui_NoMad(object):
         self.pushButton_3.setObjectName("pushButton_3")
         self.buttonGroup.addButton(self.pushButton_3)
 
-        self.pushButton_4 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_4 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_4.setGeometry(QtCore.QRect(278, 16, 53, 53))
         self.pushButton_4.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_4.setMaximumSize(QtCore.QSize(53, 53))
@@ -1290,7 +1290,7 @@ class Ui_NoMad(object):
         self.pushButton_4.setObjectName("pushButton_4")
         self.buttonGroup.addButton(self.pushButton_4)
 
-        self.pushButton_5 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_5 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_5.setGeometry(QtCore.QRect(220, 16, 53, 53))
         self.pushButton_5.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_5.setMaximumSize(QtCore.QSize(53, 53))
@@ -1320,7 +1320,7 @@ class Ui_NoMad(object):
         self.pushButton_5.setObjectName("pushButton_5")
         self.buttonGroup.addButton(self.pushButton_5)
 
-        self.pushButton_6 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_6 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_6.setGeometry(QtCore.QRect(394, 16, 53, 53))
         self.pushButton_6.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_6.setMaximumSize(QtCore.QSize(53, 53))
@@ -1350,7 +1350,7 @@ class Ui_NoMad(object):
         self.pushButton_6.setObjectName("pushButton_6")
         self.buttonGroup.addButton(self.pushButton_6)
 
-        self.pushButton_7 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_7 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_7.setGeometry(QtCore.QRect(452, 16, 53, 53))
         self.pushButton_7.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_7.setMaximumSize(QtCore.QSize(53, 53))
@@ -1380,7 +1380,7 @@ class Ui_NoMad(object):
         self.pushButton_7.setObjectName("pushButton_7")
         self.buttonGroup.addButton(self.pushButton_7)
 
-        self.pushButton_8 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_8 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_8.setGeometry(QtCore.QRect(336, 16, 53, 53))
         self.pushButton_8.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_8.setMaximumSize(QtCore.QSize(53, 53))
@@ -1410,7 +1410,7 @@ class Ui_NoMad(object):
         self.pushButton_8.setObjectName("pushButton_8")
         self.buttonGroup.addButton(self.pushButton_8)
 
-        self.pushButton_10 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_10 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_10.setGeometry(QtCore.QRect(626, 16, 53, 53))
         self.pushButton_10.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_10.setMaximumSize(QtCore.QSize(53, 53))
@@ -1440,7 +1440,7 @@ class Ui_NoMad(object):
         self.pushButton_10.setObjectName("pushButton_10")
         self.buttonGroup.addButton(self.pushButton_10)
 
-        self.pushButton_11 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_11 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_11.setGeometry(QtCore.QRect(568, 16, 53, 53))
         self.pushButton_11.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_11.setMaximumSize(QtCore.QSize(53, 53))
@@ -1470,7 +1470,7 @@ class Ui_NoMad(object):
         self.pushButton_11.setObjectName("pushButton_11")
         self.buttonGroup.addButton(self.pushButton_11)
 
-        self.pushButton_12 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_12 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_12.setGeometry(QtCore.QRect(684, 16, 53, 53))
         self.pushButton_12.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_12.setMaximumSize(QtCore.QSize(53, 53))
@@ -1500,7 +1500,7 @@ class Ui_NoMad(object):
         self.pushButton_12.setObjectName("pushButton_12")
         self.buttonGroup.addButton(self.pushButton_12)
 
-        self.pushButton_13 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_13 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_13.setGeometry(QtCore.QRect(187, 73, 53, 53))
         self.pushButton_13.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_13.setMaximumSize(QtCore.QSize(53, 53))
@@ -1530,7 +1530,7 @@ class Ui_NoMad(object):
         self.pushButton_13.setObjectName("pushButton_13")
         self.buttonGroup.addButton(self.pushButton_13)
 
-        self.pushButton_14 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_14 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_14.setGeometry(QtCore.QRect(104, 73, 78, 53))
         self.pushButton_14.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_14.setMaximumSize(QtCore.QSize(78, 53))
@@ -1567,7 +1567,7 @@ class Ui_NoMad(object):
         self.pushButton_14.setObjectName("pushButton_14")
         self.buttonGroup.addButton(self.pushButton_14)
 
-        self.pushButton_16 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_16 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_16.setGeometry(QtCore.QRect(104, 130, 91, 53))
         self.pushButton_16.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_16.setMaximumSize(QtCore.QSize(91, 53))
@@ -1597,7 +1597,7 @@ class Ui_NoMad(object):
         self.pushButton_16.setObjectName("pushButton_16")
         self.buttonGroup.addButton(self.pushButton_16)
 
-        self.pushButton_17 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_17 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_17.setGeometry(QtCore.QRect(104, 187, 111, 53))
         self.pushButton_17.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_17.setMaximumSize(QtCore.QSize(118, 53))
@@ -1628,7 +1628,7 @@ class Ui_NoMad(object):
         self.pushButton_17.setObjectName("pushButton_17")
         self.buttonGroup.addButton(self.pushButton_17)
 
-        self.pushButton_19 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_19 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_19.setGeometry(QtCore.QRect(245, 73, 53, 53))
         self.pushButton_19.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_19.setMaximumSize(QtCore.QSize(53, 53))
@@ -1658,7 +1658,7 @@ class Ui_NoMad(object):
         self.pushButton_19.setObjectName("pushButton_19")
         self.buttonGroup.addButton(self.pushButton_19)
 
-        self.pushButton_20 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_20 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_20.setGeometry(QtCore.QRect(535, 73, 53, 53))
         self.pushButton_20.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_20.setMaximumSize(QtCore.QSize(53, 53))
@@ -1688,7 +1688,7 @@ class Ui_NoMad(object):
         self.pushButton_20.setObjectName("pushButton_20")
         self.buttonGroup.addButton(self.pushButton_20)
 
-        self.pushButton_21 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_21 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_21.setGeometry(QtCore.QRect(361, 73, 53, 53))
         self.pushButton_21.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_21.setMaximumSize(QtCore.QSize(53, 53))
@@ -1718,7 +1718,7 @@ class Ui_NoMad(object):
         self.pushButton_21.setObjectName("pushButton_21")
         self.buttonGroup.addButton(self.pushButton_21)
 
-        self.pushButton_22 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_22 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_22.setGeometry(QtCore.QRect(477, 73, 53, 53))
         self.pushButton_22.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_22.setMaximumSize(QtCore.QSize(53, 53))
@@ -1748,7 +1748,7 @@ class Ui_NoMad(object):
         self.pushButton_22.setObjectName("pushButton_22")
         self.buttonGroup.addButton(self.pushButton_22)
 
-        self.pushButton_23 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_23 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_23.setGeometry(QtCore.QRect(651, 73, 53, 53))
         self.pushButton_23.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_23.setMaximumSize(QtCore.QSize(53, 53))
@@ -1778,7 +1778,7 @@ class Ui_NoMad(object):
         self.pushButton_23.setObjectName("pushButton_23")
         self.buttonGroup.addButton(self.pushButton_23)
 
-        self.pushButton_24 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_24 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_24.setGeometry(QtCore.QRect(419, 73, 53, 53))
         self.pushButton_24.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_24.setMaximumSize(QtCore.QSize(53, 53))
@@ -1808,7 +1808,7 @@ class Ui_NoMad(object):
         self.pushButton_24.setObjectName("pushButton_24")
         self.buttonGroup.addButton(self.pushButton_24)
 
-        self.pushButton_25 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_25 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_25.setGeometry(QtCore.QRect(593, 73, 53, 53))
         self.pushButton_25.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_25.setMaximumSize(QtCore.QSize(53, 53))
@@ -1838,7 +1838,7 @@ class Ui_NoMad(object):
         self.pushButton_25.setObjectName("pushButton_25")
         self.buttonGroup.addButton(self.pushButton_25)
 
-        self.pushButton_26 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_26 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_26.setGeometry(QtCore.QRect(303, 73, 53, 53))
         self.pushButton_26.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_26.setMaximumSize(QtCore.QSize(53, 53))
@@ -1868,7 +1868,7 @@ class Ui_NoMad(object):
         self.pushButton_26.setObjectName("pushButton_26")
         self.buttonGroup.addButton(self.pushButton_26)
 
-        self.pushButton_27 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_27 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_27.setGeometry(QtCore.QRect(374, 130, 53, 53))
         self.pushButton_27.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_27.setMaximumSize(QtCore.QSize(53, 53))
@@ -1898,7 +1898,7 @@ class Ui_NoMad(object):
         self.pushButton_27.setObjectName("pushButton_27")
         self.buttonGroup.addButton(self.pushButton_27)
 
-        self.pushButton_28 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_28 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_28.setGeometry(QtCore.QRect(664, 130, 53, 53))
         self.pushButton_28.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_28.setMaximumSize(QtCore.QSize(53, 53))
@@ -1928,7 +1928,7 @@ class Ui_NoMad(object):
         self.pushButton_28.setObjectName("pushButton_28")
         self.buttonGroup.addButton(self.pushButton_28)
 
-        self.pushButton_29 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_29 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_29.setGeometry(QtCore.QRect(316, 130, 53, 53))
         self.pushButton_29.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_29.setMaximumSize(QtCore.QSize(53, 53))
@@ -1958,7 +1958,7 @@ class Ui_NoMad(object):
         self.pushButton_29.setObjectName("pushButton_29")
         self.buttonGroup.addButton(self.pushButton_29)
 
-        self.pushButton_30 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_30 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_30.setGeometry(QtCore.QRect(548, 130, 53, 53))
         self.pushButton_30.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_30.setMaximumSize(QtCore.QSize(53, 53))
@@ -1988,7 +1988,7 @@ class Ui_NoMad(object):
         self.pushButton_30.setObjectName("pushButton_30")
         self.buttonGroup.addButton(self.pushButton_30)
 
-        self.pushButton_31 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_31 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_31.setGeometry(QtCore.QRect(432, 130, 53, 53))
         self.pushButton_31.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_31.setMaximumSize(QtCore.QSize(53, 53))
@@ -2018,7 +2018,7 @@ class Ui_NoMad(object):
         self.pushButton_31.setObjectName("pushButton_31")
         self.buttonGroup.addButton(self.pushButton_31)
 
-        self.pushButton_32 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_32 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_32.setGeometry(QtCore.QRect(490, 130, 53, 53))
         self.pushButton_32.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_32.setMaximumSize(QtCore.QSize(53, 53))
@@ -2048,7 +2048,7 @@ class Ui_NoMad(object):
         self.pushButton_32.setObjectName("pushButton_32")
         self.buttonGroup.addButton(self.pushButton_32)
 
-        self.pushButton_33 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_33 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_33.setGeometry(QtCore.QRect(606, 130, 53, 53))
         self.pushButton_33.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_33.setMaximumSize(QtCore.QSize(53, 53))
@@ -2078,7 +2078,7 @@ class Ui_NoMad(object):
         self.pushButton_33.setObjectName("pushButton_33")
         self.buttonGroup.addButton(self.pushButton_33)
 
-        self.pushButton_34 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_34 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_34.setGeometry(QtCore.QRect(258, 130, 53, 53))
         self.pushButton_34.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_34.setMaximumSize(QtCore.QSize(53, 53))
@@ -2108,7 +2108,7 @@ class Ui_NoMad(object):
         self.pushButton_34.setObjectName("pushButton_34")
         self.buttonGroup.addButton(self.pushButton_34)
 
-        self.pushButton_35 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_35 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_35.setGeometry(QtCore.QRect(200, 130, 53, 53))
         self.pushButton_35.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_35.setMaximumSize(QtCore.QSize(53, 53))
@@ -2138,7 +2138,7 @@ class Ui_NoMad(object):
         self.pushButton_35.setObjectName("pushButton_35")
         self.buttonGroup.addButton(self.pushButton_35)
 
-        self.pushButton_36 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_36 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_36.setGeometry(QtCore.QRect(394, 187, 53, 53))
         self.pushButton_36.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_36.setMaximumSize(QtCore.QSize(53, 53))
@@ -2168,7 +2168,7 @@ class Ui_NoMad(object):
         self.pushButton_36.setObjectName("pushButton_36")
         self.buttonGroup.addButton(self.pushButton_36)
 
-        self.pushButton_37 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_37 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_37.setGeometry(QtCore.QRect(173, 244, 64, 53))
         self.pushButton_37.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_37.setMaximumSize(QtCore.QSize(64, 53))
@@ -2198,7 +2198,7 @@ class Ui_NoMad(object):
         self.pushButton_37.setObjectName("pushButton_37")
         self.buttonGroup.addButton(self.pushButton_37)
 
-        self.pushButton_45 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_45 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_45.setGeometry(QtCore.QRect(242, 244, 64, 53))
         self.pushButton_45.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_45.setMaximumSize(QtCore.QSize(64, 53))
@@ -2228,7 +2228,7 @@ class Ui_NoMad(object):
         self.pushButton_45.setObjectName("pushButton_45")
         self.buttonGroup.addButton(self.pushButton_45)
 
-        self.pushButton_46 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_46 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_46.setGeometry(QtCore.QRect(311, 244, 371, 53))
         self.pushButton_46.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_46.setMaximumSize(QtCore.QSize(380, 53))
@@ -2259,7 +2259,7 @@ class Ui_NoMad(object):
         self.pushButton_46.setObjectName("pushButton_46")
         self.buttonGroup.addButton(self.pushButton_46)
 
-        self.pushButton_47 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_47 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_47.setGeometry(QtCore.QRect(687, 244, 53, 53))
         self.pushButton_47.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_47.setMaximumSize(QtCore.QSize(53, 53))
@@ -2289,7 +2289,7 @@ class Ui_NoMad(object):
         self.pushButton_47.setObjectName("pushButton_47")
         self.buttonGroup.addButton(self.pushButton_47)
 
-        self.pushButton_48 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_48 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_48.setGeometry(QtCore.QRect(800, 16, 53, 53))
         self.pushButton_48.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_48.setMaximumSize(QtCore.QSize(53, 53))
@@ -2319,7 +2319,7 @@ class Ui_NoMad(object):
         self.pushButton_48.setObjectName("pushButton_48")
         self.buttonGroup.addButton(self.pushButton_48)
 
-        self.pushButton_50 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_50 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_50.setGeometry(QtCore.QRect(742, 16, 53, 53))
         self.pushButton_50.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_50.setMaximumSize(QtCore.QSize(53, 53))
@@ -2349,7 +2349,7 @@ class Ui_NoMad(object):
         self.pushButton_50.setObjectName("pushButton_50")
         self.buttonGroup.addButton(self.pushButton_50)
 
-        self.pushButton_51 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_51 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_51.setGeometry(QtCore.QRect(858, 16, 114, 53))
         self.pushButton_51.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_51.setMaximumSize(QtCore.QSize(114, 53))
@@ -2379,7 +2379,7 @@ class Ui_NoMad(object):
         self.pushButton_51.setObjectName("pushButton_51")
         self.buttonGroup.addButton(self.pushButton_51)
 
-        self.pushButton_52 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_52 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_52.setGeometry(QtCore.QRect(825, 73, 53, 53))
         self.pushButton_52.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_52.setMaximumSize(QtCore.QSize(53, 53))
@@ -2409,7 +2409,7 @@ class Ui_NoMad(object):
         self.pushButton_52.setObjectName("pushButton_52")
         self.buttonGroup.addButton(self.pushButton_52)
 
-        self.pushButton_53 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_53 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_53.setGeometry(QtCore.QRect(767, 73, 53, 53))
         self.pushButton_53.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_53.setMaximumSize(QtCore.QSize(53, 53))
@@ -2439,7 +2439,7 @@ class Ui_NoMad(object):
         self.pushButton_53.setObjectName("pushButton_53")
         self.buttonGroup.addButton(self.pushButton_53)
 
-        self.pushButton_54 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_54 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_54.setGeometry(QtCore.QRect(709, 73, 53, 53))
         self.pushButton_54.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_54.setMaximumSize(QtCore.QSize(53, 53))
@@ -2469,7 +2469,7 @@ class Ui_NoMad(object):
         self.pushButton_54.setObjectName("pushButton_54")
         self.buttonGroup.addButton(self.pushButton_54)
 
-        self.pushButton_55 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_55 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_55.setGeometry(QtCore.QRect(883, 73, 88, 53))
         self.pushButton_55.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_55.setMaximumSize(QtCore.QSize(105, 53))
@@ -2499,7 +2499,7 @@ class Ui_NoMad(object):
         self.pushButton_55.setObjectName("pushButton_55")
         self.buttonGroup.addButton(self.pushButton_55)
 
-        self.pushButton_56 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_56 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_56.setGeometry(QtCore.QRect(780, 130, 53, 53))
         self.pushButton_56.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_56.setMaximumSize(QtCore.QSize(53, 53))
@@ -2529,7 +2529,7 @@ class Ui_NoMad(object):
         self.pushButton_56.setObjectName("pushButton_56")
         self.buttonGroup.addButton(self.pushButton_56)
 
-        self.pushButton_57 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_57 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_57.setGeometry(QtCore.QRect(722, 130, 53, 53))
         self.pushButton_57.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_57.setMaximumSize(QtCore.QSize(53, 53))
@@ -2559,7 +2559,7 @@ class Ui_NoMad(object):
         self.pushButton_57.setObjectName("pushButton_57")
         self.buttonGroup.addButton(self.pushButton_57)
 
-        self.pushButton_58 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_58 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_58.setGeometry(QtCore.QRect(838, 130, 134, 53))
         self.pushButton_58.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_58.setMaximumSize(QtCore.QSize(380, 53))
@@ -2589,7 +2589,7 @@ class Ui_NoMad(object):
         self.pushButton_58.setObjectName("pushButton_58")
         self.buttonGroup.addButton(self.pushButton_58)
 
-        self.pushButton_60 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_60 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_60.setGeometry(QtCore.QRect(800, 187, 114, 53))
         self.pushButton_60.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_60.setMaximumSize(QtCore.QSize(380, 53))
@@ -2619,7 +2619,7 @@ class Ui_NoMad(object):
         self.pushButton_60.setObjectName("pushButton_60")
         self.buttonGroup.addButton(self.pushButton_60)
 
-        self.pushButton_61 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_61 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_61.setGeometry(QtCore.QRect(919, 187, 53, 53))
         self.pushButton_61.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_61.setMaximumSize(QtCore.QSize(53, 53))
@@ -2679,7 +2679,7 @@ class Ui_NoMad(object):
         self.pushButton_62.setObjectName("pushButton_62")
         self.buttonGroup.addButton(self.pushButton_62)
 
-        self.pushButton_63 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_63 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_63.setGeometry(QtCore.QRect(745, 244, 53, 53))
         self.pushButton_63.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_63.setMaximumSize(QtCore.QSize(53, 53))
@@ -2709,7 +2709,7 @@ class Ui_NoMad(object):
         self.pushButton_63.setObjectName("pushButton_63")
         self.buttonGroup.addButton(self.pushButton_63)
 
-        self.pushButton_64 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_64 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_64.setGeometry(QtCore.QRect(861, 244, 53, 53))
         self.pushButton_64.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_64.setMaximumSize(QtCore.QSize(53, 53))
@@ -2739,7 +2739,7 @@ class Ui_NoMad(object):
         self.pushButton_64.setObjectName("pushButton_64")
         self.buttonGroup.addButton(self.pushButton_64)
 
-        self.pushButton_65 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_65 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_65.setGeometry(QtCore.QRect(919, 244, 53, 53))
         self.pushButton_65.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_65.setMaximumSize(QtCore.QSize(53, 53))
@@ -2769,7 +2769,7 @@ class Ui_NoMad(object):
         self.pushButton_65.setObjectName("pushButton_65")
         self.buttonGroup.addButton(self.pushButton_65)
 
-        self.pushButton_66 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_66 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_66.setGeometry(QtCore.QRect(977, 244, 53, 53))
         self.pushButton_66.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_66.setMaximumSize(QtCore.QSize(53, 53))
@@ -2799,7 +2799,7 @@ class Ui_NoMad(object):
         self.pushButton_66.setObjectName("pushButton_66")
         self.buttonGroup.addButton(self.pushButton_66)
 
-        self.pushButton_67 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_67 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_67.setGeometry(QtCore.QRect(510, 16, 53, 53))
         self.pushButton_67.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_67.setMaximumSize(QtCore.QSize(53, 53))
@@ -2829,7 +2829,7 @@ class Ui_NoMad(object):
         self.pushButton_67.setObjectName("pushButton_67")
         self.buttonGroup.addButton(self.pushButton_67)
 
-        self.pushButton_70 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_70 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_70.setGeometry(QtCore.QRect(987, 26, 31, 31))
         self.pushButton_70.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_70.setMaximumSize(QtCore.QSize(53, 53))
@@ -2860,7 +2860,7 @@ class Ui_NoMad(object):
         self.pushButton_70.setObjectName("pushButton_70")
         self.buttonGroup.addButton(self.pushButton_70)
 
-        self.pushButton_71 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_71 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_71.setGeometry(QtCore.QRect(977, 73, 53, 53))
         self.pushButton_71.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_71.setMaximumSize(QtCore.QSize(53, 53))
@@ -2890,7 +2890,7 @@ class Ui_NoMad(object):
         self.pushButton_71.setObjectName("pushButton_71")
         self.buttonGroup.addButton(self.pushButton_71)
 
-        self.pushButton_72 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_72 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_72.setGeometry(QtCore.QRect(977, 130, 53, 53))
         self.pushButton_72.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_72.setMaximumSize(QtCore.QSize(53, 53))
@@ -2920,7 +2920,7 @@ class Ui_NoMad(object):
         self.pushButton_72.setObjectName("pushButton_72")
         self.buttonGroup.addButton(self.pushButton_72)
 
-        self.pushButton_73 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_73 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_73.setGeometry(QtCore.QRect(977, 187, 53, 53))
         self.pushButton_73.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_73.setMaximumSize(QtCore.QSize(53, 53))
@@ -2950,7 +2950,7 @@ class Ui_NoMad(object):
         self.pushButton_73.setObjectName("pushButton_73")
         self.buttonGroup.addButton(self.pushButton_73)
 
-        self.pushButton_74 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_74 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_74.setGeometry(QtCore.QRect(57, 260, 27, 27))
         self.pushButton_74.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_74.setMaximumSize(QtCore.QSize(53, 53))
@@ -2980,7 +2980,7 @@ class Ui_NoMad(object):
         self.pushButton_74.setObjectName("pushButton_74")
         self.buttonGroup.addButton(self.pushButton_74)
 
-        self.pushButton_75 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_75 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_75.setGeometry(QtCore.QRect(20, 260, 27, 27))
         self.pushButton_75.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_75.setMaximumSize(QtCore.QSize(53, 53))
@@ -3010,7 +3010,7 @@ class Ui_NoMad(object):
         self.pushButton_75.setObjectName("pushButton_75")
         self.buttonGroup.addButton(self.pushButton_75)
 
-        self.pushButton_76 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_76 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_76.setGeometry(QtCore.QRect(57, 24, 27, 27))
         self.pushButton_76.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_76.setMaximumSize(QtCore.QSize(53, 53))
@@ -3040,7 +3040,7 @@ class Ui_NoMad(object):
         self.pushButton_76.setObjectName("pushButton_76")
         self.buttonGroup.addButton(self.pushButton_76)
 
-        self.pushButton_77 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_77 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_77.setGeometry(QtCore.QRect(20, 24, 27, 27))
         self.pushButton_77.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_77.setMaximumSize(QtCore.QSize(53, 53))
@@ -3070,7 +3070,7 @@ class Ui_NoMad(object):
         self.pushButton_77.setObjectName("pushButton_77")
         self.buttonGroup.addButton(self.pushButton_77)
 
-        self.pushButton_78 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_78 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_78.setGeometry(QtCore.QRect(22, 75, 58, 130))
         self.pushButton_78.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_78.setMaximumSize(QtCore.QSize(81, 201))
@@ -3100,7 +3100,7 @@ class Ui_NoMad(object):
         self.pushButton_78.setObjectName("pushButton_78")
         self.buttonGroup.addButton(self.pushButton_78)
 
-        self.pushButton_81 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_81 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_81.setGeometry(QtCore.QRect(57, 224, 27, 27))
         self.pushButton_81.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_81.setMaximumSize(QtCore.QSize(53, 53))
@@ -3130,7 +3130,7 @@ class Ui_NoMad(object):
         self.pushButton_81.setObjectName("pushButton_81")
         self.buttonGroup.addButton(self.pushButton_81)
 
-        self.pushButton_82 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_82 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_82.setGeometry(QtCore.QRect(20, 224, 27, 27))
         self.pushButton_82.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_82.setMaximumSize(QtCore.QSize(53, 53))
@@ -3334,7 +3334,7 @@ class Ui_NoMad(object):
 "}")
         self.pushButton_96.setObjectName("pushButton_96")
 
-        self.pushButton_43 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_43 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_43.setGeometry(QtCore.QRect(278, 187, 53, 53))
         self.pushButton_43.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_43.setMaximumSize(QtCore.QSize(53, 53))
@@ -3364,7 +3364,7 @@ class Ui_NoMad(object):
         self.pushButton_43.setObjectName("pushButton_43")
         self.buttonGroup.addButton(self.pushButton_43)
 
-        self.pushButton_44 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_44 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_44.setGeometry(QtCore.QRect(220, 187, 53, 53))
         self.pushButton_44.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_44.setMaximumSize(QtCore.QSize(53, 53))
@@ -3393,7 +3393,7 @@ class Ui_NoMad(object):
         self.pushButton_44.setCheckable(True)
         self.pushButton_44.setObjectName("pushButton_44")
         self.buttonGroup.addButton(self.pushButton_44)
-        self.pushButton_38 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_38 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_38.setGeometry(QtCore.QRect(336, 187, 53, 53))
         self.pushButton_38.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_38.setMaximumSize(QtCore.QSize(53, 53))
@@ -3423,7 +3423,7 @@ class Ui_NoMad(object):
         self.pushButton_38.setObjectName("pushButton_38")
         self.buttonGroup.addButton(self.pushButton_38)
 
-        self.pushButton_39 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_39 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_39.setGeometry(QtCore.QRect(568, 187, 53, 53))
         self.pushButton_39.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_39.setMaximumSize(QtCore.QSize(53, 53))
@@ -3453,7 +3453,7 @@ class Ui_NoMad(object):
         self.pushButton_39.setObjectName("pushButton_39")
         self.buttonGroup.addButton(self.pushButton_39)
 
-        self.pushButton_40 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_40 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_40.setGeometry(QtCore.QRect(452, 187, 53, 53))
         self.pushButton_40.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_40.setMaximumSize(QtCore.QSize(53, 53))
@@ -3483,7 +3483,7 @@ class Ui_NoMad(object):
         self.pushButton_40.setObjectName("pushButton_40")
         self.buttonGroup.addButton(self.pushButton_40)
 
-        self.pushButton_41 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_41 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_41.setGeometry(QtCore.QRect(510, 187, 53, 53))
         self.pushButton_41.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_41.setMaximumSize(QtCore.QSize(53, 53))
@@ -3513,7 +3513,7 @@ class Ui_NoMad(object):
         self.pushButton_41.setObjectName("pushButton_41")
         self.buttonGroup.addButton(self.pushButton_41)
 
-        self.pushButton_42 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_42 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_42.setGeometry(QtCore.QRect(626, 187, 53, 53))
         self.pushButton_42.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_42.setMaximumSize(QtCore.QSize(53, 53))
@@ -3543,7 +3543,7 @@ class Ui_NoMad(object):
         self.pushButton_42.setObjectName("pushButton_42")
         self.buttonGroup.addButton(self.pushButton_42)
 
-        self.pushButton_49 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_49 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_49.setGeometry(QtCore.QRect(684, 187, 53, 53))
         self.pushButton_49.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_49.setMaximumSize(QtCore.QSize(53, 53))
@@ -3573,7 +3573,7 @@ class Ui_NoMad(object):
         self.pushButton_49.setObjectName("pushButton_49")
         self.buttonGroup.addButton(self.pushButton_49)
 
-        self.pushButton_59 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openWindow2())
+        self.pushButton_59 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_59.setGeometry(QtCore.QRect(742, 187, 53, 53))
         self.pushButton_59.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_59.setMaximumSize(QtCore.QSize(53, 53))
