@@ -1,0 +1,18 @@
+{
+    "image_path": "A6",
+    "settings": {
+        "action": "Uncapture",
+        "lineEdit_o": "Uncapture",
+        "combobox1": "Del",
+        "delay1": "100ms",
+        "combobox2": "F12",
+        "delay2": "10ms",
+        "combobox3": "F10",
+        "delay3": "120ms",
+        "combobox4": "Execute",
+        "delay4": "120ms",
+        "checkbox": false,
+        "color": "#ff0000",
+        "txt_bg": "#598733"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "image_path": "A4",
+    "settings": {
+        "action": "enable",
+        "lineEdit_o": "enable",
+        "on_tap": "Help",
+        "on_hold": "Numpad 5",
+        "double_tap": "Menu",
+        "tap_hold": "ins",
+        "tapping_terms": "150ms",
+        "checkbox": true,
+        "color": "#ff0000",
+        "txt_bg": "#529016"
+    }
+}

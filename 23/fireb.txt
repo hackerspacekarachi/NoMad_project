@@ -1,0 +1,10 @@
+firebaseConfig = {
+  apiKey: "AIzaSyDlrHF5OuY9Jmeb7zlyu0N8tU05EJxoCSI",
+  authDomain: "input-39f4e.firebaseapp.com",
+  databaseURL: "https://input-39f4e-default-rtdb.firebaseio.com",
+  projectId: "input-39f4e",
+  storageBucket: "input-39f4e.appspot.com",
+  messagingSenderId: "927092406107",
+  appId: "1:927092406107:web:ce9a09db15c7466b914c7e",
+  measurementId: "G-21N25G3R3G"
+}

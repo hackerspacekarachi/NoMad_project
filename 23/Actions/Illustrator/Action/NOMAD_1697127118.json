@@ -1,0 +1,14 @@
+{
+    "image_path": "A1",
+    "settings": {
+        "action": "Apple",
+        "lineEdit_o": "Apple",
+        "combobox1": "K1",
+        "combobox2": "K2",
+        "combobox3": "K3",
+        "combobox4": "K4",
+        "checkbox": true,
+        "color": "#ff0000",
+        "txt_bg": "#172284"
+    }
+}
