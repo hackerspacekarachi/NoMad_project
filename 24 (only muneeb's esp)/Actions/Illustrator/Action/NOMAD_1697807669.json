@@ -1,0 +1,13 @@
+{
+    "image_path": "A3",
+    "settings": {
+        "action": "Execute",
+        "binary_on_tap": "Execute",
+        "combobox2": "Printer",
+        "combobox3": "Help",
+        "combobox4": "PgDown",
+        "checkbox": true,
+        "color": "#ff0000",
+        "txt_bg": "#455623"
+    }
+}
