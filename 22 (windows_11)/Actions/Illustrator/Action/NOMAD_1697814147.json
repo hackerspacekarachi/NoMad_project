@@ -1,0 +1,15 @@
+{
+    "image_path": "A5",
+    "settings": {
+        "action": "Capture",
+        "lineEdit_o": "Capture",
+        "on_tap": "Execute",
+        "on_hold": "Printer",
+        "double_tap": "I",
+        "tap_hold": "Numpad Clear",
+        "tapping_terms": "150ms",
+        "checkbox": true,
+        "color": "#ff0000",
+        "txt_bg": "#547963"
+    }
+}
