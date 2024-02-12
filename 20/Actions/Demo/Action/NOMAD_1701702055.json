@@ -1,0 +1,13 @@
+{
+    "image_path": "A1",
+    "settings": {
+        "action": "Action_1",
+        "lineEdit_o": "Action_1",
+        "combobox1": "Select",
+        "combobox2": "K",
+        "combobox3": "Help",
+        "checkbox": false,
+        "color": "#ff0000",
+        "txt_bg": "#417724"
+    }
+}
