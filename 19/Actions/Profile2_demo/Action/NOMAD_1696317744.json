@@ -1,0 +1,13 @@
+{
+    "image_path": "A3",
+    "settings": {
+        "action": "Insert",
+        "lineEdit_o": "Insert",
+        "combobox1": "Shift",
+        "combobox2": "Ctrl",
+        "combobox3": "Home",
+        "checkbox": true,
+        "color": "#ff0000",
+        "txt_bg": "#163579"
+    }
+}
