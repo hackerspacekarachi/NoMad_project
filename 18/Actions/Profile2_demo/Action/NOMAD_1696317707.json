@@ -1,0 +1,12 @@
+{
+    "image_path": "A2",
+    "settings": {
+        "action": "Cut",
+        "lineEdit_o": "Cut",
+        "combobox1": "X",
+        "combobox2": "Ctrl",
+        "checkbox": false,
+        "color": "#ff0000",
+        "txt_bg": "#670991"
+    }
+}

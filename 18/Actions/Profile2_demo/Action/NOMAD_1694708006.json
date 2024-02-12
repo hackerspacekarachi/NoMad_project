@@ -1,0 +1,16 @@
+{
+    "image_path": "S",
+    "settings": {
+        "action": "Search",
+        "lineEdit_o": "Search",
+        "combobox1": "Ctrl",
+        "delay1": "1ms",
+        "combobox2": "Search",
+        "delay2": "2ms",
+        "combobox3": "Execute",
+        "delay3": "3ms",
+        "checkbox": true,
+        "color": "#ff0000",
+        "txt_bg": "#654615"
+    }
+}

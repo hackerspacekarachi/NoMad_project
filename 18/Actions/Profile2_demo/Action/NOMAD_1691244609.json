@@ -1,0 +1,14 @@
+{
+    "image_path": "Actions/Profile2_demo/Action/icon/illustrator.png",
+    "settings": {
+        "action": "testing",
+        "delay": "",
+        "delay2": "",
+        "delay3": "",
+        "combobox1": "End",
+        "combobox2": "Shift",
+        "combobox3": "",
+        "checkbox": false,
+        "color": "#ff0000"
+    }
+}

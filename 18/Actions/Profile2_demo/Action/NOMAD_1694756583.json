@@ -1,0 +1,12 @@
+{
+    "image_path": "Actions/Profile2_demo/Action/icon/00000355.jpg",
+    "settings": {
+        "action": "Check",
+        "lineEdit_o": "Check",
+        "combobox1": "Del",
+        "combobox2": "Shift",
+        "checkbox": true,
+        "color": "#ff0000",
+        "txt_bg": "#478373"
+    }
+}

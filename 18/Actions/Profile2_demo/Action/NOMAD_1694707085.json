@@ -1,0 +1,13 @@
+{
+    "image_path": "ZI",
+    "settings": {
+        "action": "Zoom In",
+        "lineEdit_o": "Zoom In",
+        "combobox1": "Ctrl",
+        "delay1": "10ms",
+        "combobox2": "Zoom",
+        "checkbox": false,
+        "color": "#ff0000",
+        "txt_bg": "#206280"
+    }
+}

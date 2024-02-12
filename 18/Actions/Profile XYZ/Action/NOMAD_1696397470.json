@@ -1,0 +1,12 @@
+{
+    "image_path": "Actions/Profile XYZ/Action/icon/icons8-restart-24.png",
+    "settings": {
+        "action": "Reload",
+        "lineEdit_o": "Reload",
+        "combobox1": "Ctrl",
+        "combobox2": "Refresh",
+        "checkbox": false,
+        "color": "#ff0000",
+        "txt_bg": "#626461"
+    }
+}

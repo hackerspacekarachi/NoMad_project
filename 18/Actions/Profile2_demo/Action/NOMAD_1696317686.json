@@ -1,0 +1,12 @@
+{
+    "image_path": "A1",
+    "settings": {
+        "action": "Delete",
+        "lineEdit_o": "Delete",
+        "combobox1": "Del",
+        "combobox2": "Ctrl",
+        "checkbox": true,
+        "color": "#ff0000",
+        "txt_bg": "#298391"
+    }
+}

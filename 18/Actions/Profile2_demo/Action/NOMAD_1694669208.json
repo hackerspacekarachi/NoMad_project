@@ -1,0 +1,17 @@
+{
+    "image_path": "Actions/Profile2_demo/Action/icon/00000096_(5).jpg",
+    "settings": {
+        "action": "Insert",
+        "lineEdit_o": "Insert",
+        "combobox1": "PgUp",
+        "delay1": "20ms",
+        "combobox2": "F13",
+        "delay2": "20ms",
+        "combobox3": "Select",
+        "delay3": "10ms",
+        "combobox4": "L",
+        "delay4": "10ms",
+        "checkbox": true,
+        "color": "#ff0000"
+    }
+}
