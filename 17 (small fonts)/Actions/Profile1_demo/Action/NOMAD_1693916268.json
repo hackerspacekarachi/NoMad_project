@@ -1,0 +1,14 @@
+{
+    "image_path": "Actions/Profile1_demo/Action/icon/00000420_(4).jpg",
+    "settings": {
+        "action": "Beach",
+        "delay": "",
+        "delay2": "",
+        "delay3": "",
+        "combobox1": "PgUp",
+        "combobox2": "Execute",
+        "combobox3": "Home",
+        "checkbox": true,
+        "color": "#ff0000"
+    }
+}

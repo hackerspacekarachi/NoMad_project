@@ -1,0 +1,14 @@
+{
+    "image_path": "Actions/Profile1_demo/Action/icon/00000653.jpg",
+    "settings": {
+        "action": "Ground",
+        "delay": "",
+        "delay2": "",
+        "delay3": "",
+        "combobox1": "PgDown",
+        "combobox2": "Play",
+        "combobox3": "Execute",
+        "checkbox": true,
+        "color": "#ff0000"
+    }
+}
