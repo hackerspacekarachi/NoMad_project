@@ -1,0 +1,13 @@
+{
+    "image_path": "Actions/Profile2_demo/Action/icon/00000309_(5).jpg",
+    "settings": {
+        "action": "Green",
+        "delay": "20",
+        "delay2": "34",
+        "delay3": "900",
+        "combobox1": "Print",
+        "combobox2": "G",
+        "combobox3": "Search",
+        "checkbox": true
+    }
+}
