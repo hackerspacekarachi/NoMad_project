@@ -1,15 +1,17 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from CreateAction import Ui_CreateAction
+from Save import Ui_Save
 from PIL import Image
 import os, sys, json, time
-import ctypes
+import ctypes, shutil
 user32 = ctypes.windll.user32
 user32.SetProcessDPIAware()
 ax, wae = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
 
 class Ui_NoMad(object):
-    global a, b, c #Using 'a' for Vector popup, 'b' for resizing
-    a, b = 0, 0
+    global a, b, la, la_x #Using 'a' for Vector popup, 'b' for save toggle
+    a, b, la, la_x = 0, 0, 4, 630
+
+
     def openCreateAction(self):
         self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114))
         self.profiles_area.setGeometry(QtCore.QRect(0, 190, 370, NoMad.frameGeometry().height()-300))
@@ -25,7 +27,6 @@ class Ui_NoMad(object):
         # update create action size
         self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114))
         self.profiles_area.setGeometry(QtCore.QRect(0, 190, 370, NoMad.frameGeometry().height()-300))
-        # self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, NoMad.frameGeometry().height()-280))
 
     def closeOptions(self):
         self.options.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 0, 0))
@@ -33,11 +34,9 @@ class Ui_NoMad(object):
         # update create action size
         self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114))
         self.profiles_area.setGeometry(QtCore.QRect(0, 190, 370, NoMad.frameGeometry().height()-300))
-        # self.profiles()
-        # self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, NoMad.frameGeometry().height()-280))
 
 
-    def openWindow(self):
+    def under_dev(self):
         self.error_dialog.showMessage('Panel under Development!')
 
     def resource_path(self, relative_path):
@@ -50,14 +49,17 @@ class Ui_NoMad(object):
             base_path = os.path.abspath(".")
 
         return os.path.join(base_path, relative_path)
-    
-    def Vect_art(self):
-        global a 
-        a +=1
-        if a%2 != 0:
-            self.frame_5.setGeometry(QtCore.QRect(15, 120, 151, 151))
+
+    def save_toggle(self):
+        global b
+        b +=1
+        ratio = (135 * (NoMad.frameGeometry().width()//2)) // 586
+        wdt = (NoMad.frameGeometry().width()//2)-ratio
+        hgt = NoMad.frameGeometry().height()-225
+        if b%2 != 0:
+            self.frame_9.setGeometry(QtCore.QRect(wdt,  hgt, 195, 86))
         else:
-            self.frame_5.setGeometry(QtCore.QRect(15, 120, 0, 0))
+            self.frame_9.setGeometry(QtCore.QRect(wdt,  hgt, 0, 0))
 
 
     def buttonz(self, a):
@@ -96,8 +98,6 @@ class Ui_NoMad(object):
         self.pushButton_c.setGeometry(QtCore.QRect(num[0], num[1], 51, 51))
         self.pushButton_c.setMinimumSize(QtCore.QSize(0, 0))
         self.pushButton_c.setMaximumSize(QtCore.QSize(51, 51))
-        font = QtGui.QFont()
-        self.pushButton_c.setFont(font)
         self.pushButton_c.setStyleSheet("\n"
         "\n"
         "QPushButton {\n"
@@ -129,7 +129,7 @@ class Ui_NoMad(object):
         self.pushButton_c.setIconSize(QtCore.QSize(35, 35))
         self.pushButton_c.setToolTip(var['settings']['action'])
 
-    def profiles(self):
+    def save_actions(self):
         # onlyfiles = next(os.walk("Profiles"))[2] #directory is your directory path as string
         # print(len(onlyfiles))
 
@@ -237,7 +237,155 @@ class Ui_NoMad(object):
         binary.setText(text)
         menu_obj = binary.menu()
         menu_obj.close()
+
+    def saveWindow(self):
+        self.save_toggle()
+        self.window = QtWidgets.QMainWindow()
+        self.ui = Ui_Save()
+        self.ui.setupUi(self.window)
+        self.window.show()
+        NoMad.close()
+        # for child in self.frame_5.findChildren(QtWidgets.QPushButton):
+        #     child.setEnabled(False)
+
+
+    def profiles(self):
+        if os.path.isdir(self.resource_path('Action')):
+            shutil.move(self.resource_path('Action'),'./Actions')
+        global f5_y
+        f5_y = 10
+
+        if len(os.listdir('Actions')) == 0:
+                pass
+
+        else:
+                for i in os.listdir('Actions'):
+                        with open('Actions/'+i) as p:
+                                var = json.load(p)
+                        
+                        self.pushButton_ = QtWidgets.QPushButton(self.frame_5, clicked = lambda checked, text=var['name']: self.commandLinkButton_6.setText(text))
+                        self.pushButton_.setGeometry(QtCore.QRect(10, f5_y, 130, 25))
+                        self.pushButton_.setText(var['name'])
+                        # self.pushButton_.clicked.connect(header.setText(var['name']))
+                        self.pushButton_.setStyleSheet("\n"
+                        "\n"
+                        "QPushButton {\n"
+                        "  /* Set the background color and border for the button */\n"
+                        "  background-color: #e7e7e7;\n"
+                        "  font: 8pt \"Work Sans\";\n"
+                        "  border: none;\n"
+                        "  border-radius: 12px;\n"
+                        "  color: black;\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:hover {\n"
+                        "  /* Change the background color when the button is hovered over */\n"
+                        "  background-color: rgb(238, 255, 1);\n"
+                        "  color: black;\n"
+                        "}\n"
+                        "\n"
+                        "QPushButton:pressed {\n"
+                        "  /* Change the background color when the button is pressed */\n"
+                        "  background-color: rgb(238, 255, 1);\n"
+                        "  color: black;\n"
+                        "}")
+                        self.pushButton_.setObjectName("pushButton_")
+
+                        # space
+                        f5_y += 35
+                
+                self.commandLinkButton_6.setText(var['name'])
+                self.commandLinkButton_6.setStyleSheet("color: #000000;\n"
+                "background-color: none;\n"
+                "font: 10pt \"Work Sans\";\n"
+                "border: none;\n"
+                "")
+
+        self.pushButton_0 = QtWidgets.QPushButton(self.frame_5)
+        self.pushButton_0.setGeometry(QtCore.QRect(10, f5_y, 130, 25))
+        self.pushButton_0.setText("+ Add new")
         
+        self.pushButton_0.setStyleSheet("\n"
+        "\n"
+        "QPushButton {\n"
+        "  /* Set the background color and border for the button */\n"
+        "  background-color: black;\n"
+        "  font: 8pt \"Work Sans\";\n"
+        "  border: none;\n"
+        "  border-radius: 12px;\n"
+        "  color: white;\n"
+        "}\n"
+        "\n"
+        "QPushButton:hover {\n"
+        "  /* Change the background color when the button is hovered over */\n"
+        "  background-color:nocolor;\n"
+        "  color: rgb(173, 173, 173)\n"
+        "}\n"
+        "\n"
+        "QPushButton:pressed {\n"
+        "  /* Change the background color when the button is pressed */\n"
+        "  background-color: rgb(238, 255, 1);\n"
+        "  color: black;\n"
+        "}")
+        self.pushButton_0.setObjectName("pushButton_0")
+
+        f5_y += 35
+
+    def layers(self):
+        global la, la_x
+
+        self.pushButton_00 = QtWidgets.QPushButton(self.frame_81)
+        self.pushButton_00.setGeometry(QtCore.QRect(la_x, 10, 25, 25)) #35
+        self.pushButton_00.setMinimumSize(QtCore.QSize(25, 25))
+        self.pushButton_00.setMaximumSize(QtCore.QSize(25, 25))
+        self.pushButton_00.setText(str(la))
+        self.pushButton_00.setStyleSheet("\n"
+        "QPushButton:checked {\n"
+        "  background-color: rgb(0, 0, 0);\n"
+        "  font: 6pt \"Arial\";\n"
+        "  color: rgb(255, 255, 255);\n"
+        "  border-radius: 12px;\n"
+        "}\n"
+        "\n"
+        "QPushButton {\n"
+        "  /* Set the background color and border for the button */\n"
+        "  background-color: rgb(255,255,255);\n"
+        "  font: 6pt \"Arial\";\n"
+        "  border-radius: 12px;\n"
+        "  border-style: none;\n"
+        "  color: rgb(0, 0, 0);\n"
+        "}")
+        self.pushButton_00.setObjectName("pushButton_00")
+        self.pushButton_00.setCheckable(True)
+        self.Lay_f8.addWidget(self.pushButton_00)
+
+        la +=1
+        la_x +=40
+        # self.pushButton_89.setGeometry(QtCore.QRect(la_x, 10, 25, 25))
+        self.frame_81.setGeometry(QtCore.QRect(0, 0, la_x, 45))
+
+    def Vect_art(self):
+
+        global a 
+        a +=1
+        if a%2 != 0:
+        #     self.profiles()
+            self.frame_5.setGeometry(QtCore.QRect(15, 120, 151, f5_y))
+        else:
+            self.frame_5.setGeometry(QtCore.QRect(15, 120, 0, 0))
+
+
+    def on_button_clicked(self):
+        color = QtWidgets.QColorDialog.getColor()
+
+        if color.isValid():
+            self.pushButton_85.setStyleSheet(f"background-color: {color.name()};\n"
+                "font: 8pt \"Arial\";\n"
+                "color: rgb(0, 0, 0);\n"
+                "border-style: none;\n"
+                "border-radius: 12px;")
+        
+
         
     def setupUi(self, NoMad):
         NoMad.setObjectName("NoMad")
@@ -531,54 +679,8 @@ class Ui_NoMad(object):
         self.scrollArea_c.setWidget(self.scrollAreaWidgetContents_c)
         self.verticalLayout_c.addWidget(self.scrollArea_c)
 
-        self.profiles() # Profile icons
+        self.save_actions() # action icons
 
-#         self.verticalScrollBar = QtWidgets.QScrollBar(self.CreateAction)
-#         self.verticalScrollBar.setGeometry(QtCore.QRect(350, 140, 16, 331))
-#         self.verticalScrollBar.setStyleSheet("/*Vertical Scroll Bar*/\n"
-# "QScrollBar:vertical {\n"
-# "    border:none;\n"
-# "    background-color: lightgrey;\n"
-# "    width: 0px;\n"
-# "    margin: 15px 0 8px 0;\n"
-# "    border-radius: 8px;\n"
-# "}\n"
-# "\n"
-# "/*Handle Bar Vertical*/\n"
-# "QScrollBar::handle:vertical {\n"
-# "    background-color: #3c3c3c;\n"
-# "    min-height: 150px;\n"
-# "    border-radius: 8px;\n"
-# "}\n"
-# "\n"
-# "QScrollBar::handle:vertical:hover {\n"
-# "    background-color: #3c3c3c;\n"
-# "}\n"
-# "\n"
-# "QScrollBar::handle:vertical:pressed {\n"
-# "    background-color: #3c3c3c;\n"
-# "}\n"
-# "\n"
-# "/*BTN Top - Scroll Bar*/\n"
-# "QScrollBar::sub-line:vertical {\n"
-# "    border:none;\n"
-# "    background-color: lightgrey;\n"
-# "    height: 0px;\n"
-# "    border-top-left-radius: 7px;\n"
-# "    border-top-right-radius: 7px;\n"
-# "}\n"
-# "\n"
-# "QScrollBar::sub-line:vertical:hover {\n"
-# "    background-color: lightgrey;\n"
-# "}\n"
-# "\n"
-# "QScrollBar::sub-line:vertical:pressed {\n"
-# "    background-color: lightgrey;\n"
-# "}\n"
-# "\n"
-# "")
-#         self.verticalScrollBar.setOrientation(QtCore.Qt.Vertical)
-#         self.verticalScrollBar.setObjectName("verticalScrollBar")
 
         ###########################################################################
         ########################### CREATE_ACTION #################################
@@ -769,7 +871,8 @@ class Ui_NoMad(object):
 "}")
         self.pushButton_o.setText("")
         icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/Icons/Icons/insert (512).png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        pic = self.resource_path("Icons/add.png")
+        icon1.addPixmap(QtGui.QPixmap(pic), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.pushButton_o.setIcon(icon1)
         self.pushButton_o.setIconSize(QtCore.QSize(35, 35))
         self.pushButton_o.setObjectName("pushButton_o")
@@ -876,9 +979,6 @@ class Ui_NoMad(object):
         self.toolButton_o = QtWidgets.QToolButton(self.options_2)
         self.toolButton_o.setGeometry(QtCore.QRect(10, 10, 31, 21))
         self.toolButton_o.setText("")
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/Icons/Icons/options2.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.toolButton_o.setIcon(icon2)
         self.toolButton_o.setObjectName("toolButton_o")
         self.options_3 = QtWidgets.QFrame(self.options)
         self.options_3.setGeometry(QtCore.QRect(40, 320, 301, 41))
@@ -916,9 +1016,6 @@ class Ui_NoMad(object):
         #menu.setWindowFlags(QtCore.Qt.FramelessWindowHint)
         menu_2o.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         
-        K2 = [
-            "21", "22", "Shift", "Z"
-        ]
         binary_2o = QtWidgets.QToolButton(self.options_3)
         binary_2o.setText("Keystroke 2")
         binary_2o.setStyleSheet('''
@@ -934,12 +1031,11 @@ class Ui_NoMad(object):
         menu_2o.triggered.connect(lambda y: self.menu_triggered(binary_2o, y.text()))
 
         binary_2o.setMenu(menu_2o)
-        self.add_menu(K2, menu_2o)
+        self.add_menu(K1, menu_2o)
 
         self.toolButton_2o = QtWidgets.QToolButton(self.options_3)
         self.toolButton_2o.setGeometry(QtCore.QRect(10, 10, 31, 21))
         self.toolButton_2o.setText("")
-        self.toolButton_2o.setIcon(icon2)
         self.toolButton_2o.setObjectName("toolButton_2o")
         self.lineEdit_2o = QtWidgets.QLineEdit(self.options)
         self.lineEdit_2o.setGeometry(QtCore.QRect(150, 290, 81, 20))
@@ -968,7 +1064,6 @@ class Ui_NoMad(object):
         self.pushButton_2o = QtWidgets.QPushButton(self.options)
         self.pushButton_2o.setGeometry(QtCore.QRect(10, 500, 361, 31))
         self.pushButton_2o.clicked.connect(self.save_profile)
-        # self.pushButton_2o.clicked.connect(self.profiles) 
         font = QtGui.QFont()
         font.setFamily("Work Sans Light")
         self.pushButton_2o.setFont(font)
@@ -1029,9 +1124,6 @@ class Ui_NoMad(object):
         menu_3o.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint | QtCore.Qt.FramelessWindowHint)
         menu_3o.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         
-        K3 = [
-            "31", "32", "33", "Y"
-        ]
         binary_3 = QtWidgets.QToolButton(self.options_4)
         binary_3.setText("Keystroke 3")
         binary_3.setStyleSheet('''
@@ -1047,12 +1139,11 @@ class Ui_NoMad(object):
         menu_3o.triggered.connect(lambda y: self.menu_triggered(binary_3, y.text()))
 
         binary_3.setMenu(menu_3o)
-        self.add_menu(K3, menu_3o)
+        self.add_menu(K1, menu_3o)
 
         self.toolButton_3o = QtWidgets.QToolButton(self.options_4)
         self.toolButton_3o.setGeometry(QtCore.QRect(10, 9, 31, 20))
         self.toolButton_3o.setText("")
-        self.toolButton_3o.setIcon(icon2)
         self.toolButton_3o.setObjectName("toolButton_3o")
         self.lineEdit_4o = QtWidgets.QLineEdit(self.options)
         self.lineEdit_4o.setGeometry(QtCore.QRect(150, 450, 81, 20))
@@ -1155,6 +1246,17 @@ class Ui_NoMad(object):
         self.boxLayout.addWidget(self.frame_8,0,QtCore.Qt.AlignTop)
         self.boxLayout.addStretch()
 
+        self.frame_81 = QtWidgets.QFrame(self.frame_8)
+        self.frame_81.setGeometry(QtCore.QRect(0, 0, 0, 45))
+        self.frame_81.setMinimumSize(QtCore.QSize(115, 45))
+        self.frame_81.setMaximumSize(QtCore.QSize(16777215, 45))
+        self.frame_81.setStyleSheet("background-color: no color;\n"
+"font: 8pt \"Arial\";\n"
+"color: rgb(255, 255, 255);\n")
+        self.frame_81.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_81.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_81.setObjectName("frame_81")
+
         self.frame_2 = QtWidgets.QFrame(self.frame)
         self.frame_2.setGeometry(QtCore.QRect(0, 180, 1047, 313))
         self.frame_2.setStyleSheet("background-color: rgb(0, 0, 0);\n"
@@ -1199,7 +1301,60 @@ class Ui_NoMad(object):
         self.frame_7.setObjectName("frame_7")
         self.boxLayout.addWidget(self.frame_7, 0, QtCore.Qt.AlignBottom) #,0,QtCore.Qt.AlignCenter
 
+        self.frame_9 = QtWidgets.QFrame(self.frame)  # Vector Art
+        self.frame_9.setGeometry(QtCore.QRect( (NoMad.frameGeometry().width()//2)-85,  NoMad.frameGeometry().height()-200, 0, 0))
+        self.frame_9.setStyleSheet("background-color: rgb(255, 255, 255);\n"
+"font: 8pt \"Arial\";\n"
+"color: rgb(0, 0, 0);\n"
+"border-style: outset;\n"
+"border-width: 2px;\n"
+"border-radius: 16px;"
+"border-color: rgb(255, 255, 255);")
+        self.frame_9.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_9.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_9.setObjectName("frame_9")
 
+
+        self.pushButton_97 = QtWidgets.QPushButton(self.frame_9)
+        self.pushButton_97.setGeometry(QtCore.QRect(10, 10, 175, 28))
+        self.pushButton_97.setText("Save")
+        self.pushButton_97.setStyleSheet("\n"
+"\n"
+"QPushButton {\n"
+"  /* Set the background color and border for the button */\n"
+"  background-color: black;\n"
+"  font: 8pt \"Work Sans\";\n"
+"  border: none;\n"
+"  border-radius: 14px;\n"
+"  color: white;\n"
+"}\n"
+"QPushButton:pressed {\n"
+"  /* Change the background color when the button is pressed */\n"
+"  background-color: rgb(173, 173, 173);\n"
+"  color: black;\n"
+"}")
+        self.pushButton_97.setObjectName("pushButton_97")
+
+        self.pushButton_98 = QtWidgets.QPushButton(self.frame_9, clicked= lambda: self.saveWindow())
+        self.pushButton_98.setGeometry(QtCore.QRect(10, 45, 175, 28))
+        self.pushButton_98.setText("+Save new profile")
+        self.pushButton_98.setStyleSheet("\n"
+"\n"
+"QPushButton {\n"
+"  /* Set the background color and border for the button */\n"
+"  background-color: rgb(238, 255, 1);\n"
+"  font: 8pt \"Work Sans\";\n"
+"  border: none;\n"
+"  border-radius: 12px;\n"
+"  color: black;\n"
+"}\n"
+"\n"
+"QPushButton:pressed {\n"
+"  /* Change the background color when the button is pressed */\n"
+"  background-color: rgb(173, 173, 173);\n"
+"  color: black;\n"
+"}")
+        self.pushButton_98.setObjectName("pushButton_98")
 
         self.pushButton = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton.setGeometry(QtCore.QRect(104, 16, 53, 53))
@@ -1418,7 +1573,7 @@ class Ui_NoMad(object):
 "QPushButton:checked {\n"
 "background-color: #af55ff;\n"
 "color: white;\n"
-"border-radius: 1px;\n"
+"border-radius: 12px;\n"
 "}\n"
 "\n"
 "QPushButton {\n"
@@ -3226,113 +3381,113 @@ class Ui_NoMad(object):
         self.pushButton_83.setObjectName("pushButton_83")
         self.Lay_f4.addWidget(self.pushButton_83,0,QtCore.Qt.AlignCenter)
 
-        self.pushButton_93 = QtWidgets.QPushButton(self.frame_5)
-        self.pushButton_93.setGeometry(QtCore.QRect(10, 10, 130, 25))
-        self.pushButton_93.setText("Vector Art")
-        self.pushButton_93.setStyleSheet("\n"
-"\n"
-"QPushButton {\n"
-"  /* Set the background color and border for the button */\n"
-"  background-color: #e7e7e7;\n"
-"  font: 8pt \"Work Sans\";\n"
-"  border: none;\n"
-"  border-radius: 12px;\n"
-"  color: black;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"  /* Change the background color when the button is hovered over */\n"
-"  background-color:nocolor;\n"
-"  color: rgb(173, 173, 173)\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"  /* Change the background color when the button is pressed */\n"
-"  background-color: rgb(238, 255, 1);\n"
-"  color: black;\n"
-"}")
-        self.pushButton_93.setObjectName("pushButton_93")
+#         self.pushButton_93 = QtWidgets.QPushButton(self.frame_5)
+#         self.pushButton_93.setGeometry(QtCore.QRect(10, 10, 130, 25))
+#         self.pushButton_93.setText("Vector Art")
+#         self.pushButton_93.setStyleSheet("\n"
+# "\n"
+# "QPushButton {\n"
+# "  /* Set the background color and border for the button */\n"
+# "  background-color: #e7e7e7;\n"
+# "  font: 8pt \"Work Sans\";\n"
+# "  border: none;\n"
+# "  border-radius: 12px;\n"
+# "  color: black;\n"
+# "}\n"
+# "\n"
+# "QPushButton:hover {\n"
+# "  /* Change the background color when the button is hovered over */\n"
+# "  background-color:nocolor;\n"
+# "  color: rgb(173, 173, 173)\n"
+# "}\n"
+# "\n"
+# "QPushButton:pressed {\n"
+# "  /* Change the background color when the button is pressed */\n"
+# "  background-color: rgb(238, 255, 1);\n"
+# "  color: black;\n"
+# "}")
+#         self.pushButton_93.setObjectName("pushButton_93")
 
-        self.pushButton_94 = QtWidgets.QPushButton(self.frame_5)
-        self.pushButton_94.setGeometry(QtCore.QRect(10, 45, 130, 25))
-        self.pushButton_94.setText("Video editing")
-        self.pushButton_94.setStyleSheet("\n"
-"\n"
-"QPushButton {\n"
-"  /* Set the background color and border for the button */\n"
-"  background-color: #e7e7e7;\n"
-"  font: 8pt \"Work Sans\";\n"
-"  border: none;\n"
-"  border-radius: 12px;\n"
-"  color: black;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"  /* Change the background color when the button is hovered over */\n"
-"  background-color:nocolor;\n"
-"  color: rgb(173, 173, 173)\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"  /* Change the background color when the button is pressed */\n"
-"  background-color: rgb(238, 255, 1);\n"
-"  color: black;\n"
-"}")
-        self.pushButton_94.setObjectName("pushButton_94")
+#         self.pushButton_94 = QtWidgets.QPushButton(self.frame_5)
+#         self.pushButton_94.setGeometry(QtCore.QRect(10, 45, 130, 25))
+#         self.pushButton_94.setText("Video editing")
+#         self.pushButton_94.setStyleSheet("\n"
+# "\n"
+# "QPushButton {\n"
+# "  /* Set the background color and border for the button */\n"
+# "  background-color: #e7e7e7;\n"
+# "  font: 8pt \"Work Sans\";\n"
+# "  border: none;\n"
+# "  border-radius: 12px;\n"
+# "  color: black;\n"
+# "}\n"
+# "\n"
+# "QPushButton:hover {\n"
+# "  /* Change the background color when the button is hovered over */\n"
+# "  background-color:nocolor;\n"
+# "  color: rgb(173, 173, 173)\n"
+# "}\n"
+# "\n"
+# "QPushButton:pressed {\n"
+# "  /* Change the background color when the button is pressed */\n"
+# "  background-color: rgb(238, 255, 1);\n"
+# "  color: black;\n"
+# "}")
+#         self.pushButton_94.setObjectName("pushButton_94")
 
-        self.pushButton_95 = QtWidgets.QPushButton(self.frame_5)
-        self.pushButton_95.setGeometry(QtCore.QRect(10, 80, 130, 25))
-        self.pushButton_95.setText("Figma UI")
-        self.pushButton_95.setStyleSheet("\n"
-"\n"
-"QPushButton {\n"
-"  /* Set the background color and border for the button */\n"
-"  background-color: #e7e7e7;\n"
-"  font: 8pt \"Work Sans\";\n"
-"  border: none;\n"
-"  border-radius: 12px;\n"
-"  color: black;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"  /* Change the background color when the button is hovered over */\n"
-"  background-color:nocolor;\n"
-"  color: rgb(173, 173, 173)\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"  /* Change the background color when the button is pressed */\n"
-"  background-color: rgb(238, 255, 1);\n"
-"  color: black;\n"
-"}")
-        self.pushButton_95.setObjectName("pushButton_95")
+#         self.pushButton_95 = QtWidgets.QPushButton(self.frame_5)
+#         self.pushButton_95.setGeometry(QtCore.QRect(10, 80, 130, 25))
+#         self.pushButton_95.setText("Figma UI")
+#         self.pushButton_95.setStyleSheet("\n"
+# "\n"
+# "QPushButton {\n"
+# "  /* Set the background color and border for the button */\n"
+# "  background-color: #e7e7e7;\n"
+# "  font: 8pt \"Work Sans\";\n"
+# "  border: none;\n"
+# "  border-radius: 12px;\n"
+# "  color: black;\n"
+# "}\n"
+# "\n"
+# "QPushButton:hover {\n"
+# "  /* Change the background color when the button is hovered over */\n"
+# "  background-color:nocolor;\n"
+# "  color: rgb(173, 173, 173)\n"
+# "}\n"
+# "\n"
+# "QPushButton:pressed {\n"
+# "  /* Change the background color when the button is pressed */\n"
+# "  background-color: rgb(238, 255, 1);\n"
+# "  color: black;\n"
+# "}")
+#         self.pushButton_95.setObjectName("pushButton_95")
 
-        self.pushButton_96 = QtWidgets.QPushButton(self.frame_5)
-        self.pushButton_96.setGeometry(QtCore.QRect(10, 115, 130, 25))
-        self.pushButton_96.setText("+ Add new")
-        self.pushButton_96.setStyleSheet("\n"
-"\n"
-"QPushButton {\n"
-"  /* Set the background color and border for the button */\n"
-"  background-color: black;\n"
-"  font: 8pt \"Work Sans\";\n"
-"  border: none;\n"
-"  border-radius: 12px;\n"
-"  color: white;\n"
-"}\n"
-"\n"
-"QPushButton:hover {\n"
-"  /* Change the background color when the button is hovered over */\n"
-"  background-color:nocolor;\n"
-"  color: rgb(173, 173, 173)\n"
-"}\n"
-"\n"
-"QPushButton:pressed {\n"
-"  /* Change the background color when the button is pressed */\n"
-"  background-color: rgb(238, 255, 1);\n"
-"  color: black;\n"
-"}")
-        self.pushButton_96.setObjectName("pushButton_96")
+#         self.pushButton_96 = QtWidgets.QPushButton(self.frame_5)
+#         self.pushButton_96.setGeometry(QtCore.QRect(10, 115, 130, 25))
+#         self.pushButton_96.setText("+ Add new")
+#         self.pushButton_96.setStyleSheet("\n"
+# "\n"
+# "QPushButton {\n"
+# "  /* Set the background color and border for the button */\n"
+# "  background-color: black;\n"
+# "  font: 8pt \"Work Sans\";\n"
+# "  border: none;\n"
+# "  border-radius: 12px;\n"
+# "  color: white;\n"
+# "}\n"
+# "\n"
+# "QPushButton:hover {\n"
+# "  /* Change the background color when the button is hovered over */\n"
+# "  background-color:nocolor;\n"
+# "  color: rgb(173, 173, 173)\n"
+# "}\n"
+# "\n"
+# "QPushButton:pressed {\n"
+# "  /* Change the background color when the button is pressed */\n"
+# "  background-color: rgb(238, 255, 1);\n"
+# "  color: black;\n"
+# "}")
+#         self.pushButton_96.setObjectName("pushButton_96")
 
         self.pushButton_43 = QtWidgets.QPushButton(self.frame_2, clicked = lambda: self.openCreateAction())
         self.pushButton_43.setGeometry(QtCore.QRect(278, 187, 53, 53))
@@ -3650,7 +3805,8 @@ class Ui_NoMad(object):
 "border: none;\n"
 "")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/Icons/Icons/world.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        pic = self.resource_path("Icons/www.png")
+        icon.addPixmap(QtGui.QPixmap(pic), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.commandLinkButton.setIcon(icon)
         self.commandLinkButton.setObjectName("commandLinkButton")
         self.Lay_f4.addWidget(self.commandLinkButton,1,QtCore.Qt.AlignRight)
@@ -3684,10 +3840,10 @@ class Ui_NoMad(object):
 
         self.commandLinkButton_6 = QtWidgets.QCommandLinkButton(self.frame_8, clicked = lambda: self.Vect_art())
         self.commandLinkButton_6.setGeometry(QtCore.QRect(5, 5, 100, 41)) #30
-        self.commandLinkButton_6.setText("Vector Art")
-        self.commandLinkButton_6.setStyleSheet("color: #000000;\n"
+        self.commandLinkButton_6.setText("Save profile first")
+        self.commandLinkButton_6.setStyleSheet("color: rgb(192,192,192);\n"
 "background-color: none;\n"
-"font: 10pt \"Work Sans\";\n"
+"font: 12pt \"Work Sans\";\n"
 "border: none;\n"
 "")
         icon = QtGui.QIcon()
@@ -3695,6 +3851,8 @@ class Ui_NoMad(object):
         self.commandLinkButton_6.setIcon(icon)
         self.commandLinkButton_6.setObjectName("commandLinkButton_6")
         self.Lay_f8.addWidget(self.commandLinkButton_6,0,QtCore.Qt.AlignLeft)
+
+        # self.profiles()
 
         # https://stackoverflow.com/questions/49828339/how-to-properly-manage-text-and-icon-with-qtoolbutton
         self.pushButton_90 = QtWidgets.QPushButton(self.frame_8, clicked = lambda: self.Vect_art())
@@ -3711,7 +3869,13 @@ class Ui_NoMad(object):
         self.Lay_f8.addWidget(self.pushButton_90,0,QtCore.Qt.AlignLeft)
         self.Lay_f8.addStretch(1)
 
-        self.pushButton_85 = QtWidgets.QPushButton(self.frame_8)
+        self.Lay_f81 = QtWidgets.QHBoxLayout(self.frame_81)
+        self.Lay_f81.setObjectName("Lay_f81")
+        self.Lay_f81.setContentsMargins(0,0,0,0)
+        self.Lay_f81.addStretch(1)
+        
+
+        self.pushButton_85 = QtWidgets.QPushButton(self.frame_81, clicked= lambda: self.on_button_clicked())
         self.pushButton_85.setGeometry(QtCore.QRect(330, 10, 25, 25)) #35
         self.pushButton_85.setMinimumSize(QtCore.QSize(25, 25))
         self.pushButton_85.setMaximumSize(QtCore.QSize(25, 25))
@@ -3721,9 +3885,9 @@ class Ui_NoMad(object):
 "border-style: none;\n"
 "border-radius: 12px;")
         self.pushButton_85.setObjectName("pushButton_85")
-        self.Lay_f8.addWidget(self.pushButton_85,0,QtCore.Qt.AlignCenter)
+        self.Lay_f81.addWidget(self.pushButton_85,0,QtCore.Qt.AlignLeft)
 
-        self.pushButton_84 = QtWidgets.QPushButton(self.frame_8)
+        self.pushButton_84 = QtWidgets.QPushButton(self.frame_81)
         self.pushButton_84.setGeometry(QtCore.QRect(365, 10, 130, 25)) #35
         self.pushButton_84.setMinimumSize(QtCore.QSize(130, 25))
         self.pushButton_84.setMaximumSize(QtCore.QSize(130, 25))
@@ -3734,59 +3898,113 @@ class Ui_NoMad(object):
 "border-style: none;\n"
 "border-radius: 12px;")
         self.pushButton_84.setObjectName("pushButton_84")
-        self.Lay_f8.addWidget(self.pushButton_84,0,QtCore.Qt.AlignCenter)
+        self.Lay_f81.addWidget(self.pushButton_84,0,QtCore.Qt.AlignLeft)
 
-        self.pushButton_86 = QtWidgets.QPushButton(self.frame_8)
+        # self.brushGroup = QtWidgets.QButtonGroup(self.frame)
+        # self.brushGroup.setObjectName("brushGroup")
+
+        self.pushButton_86 = QtWidgets.QPushButton(self.frame_81)
         self.pushButton_86.setGeometry(QtCore.QRect(510, 10, 25, 25)) #35
         self.pushButton_86.setMinimumSize(QtCore.QSize(25, 25))
         self.pushButton_86.setMaximumSize(QtCore.QSize(25, 25))
         self.pushButton_86.setText("1")
-        self.pushButton_86.setStyleSheet("background-color: rgb(0, 0, 0);\n"
-"font: 6pt \"Arial\";\n"
-"color: rgb(255, 255, 255);\n"
-"border-style: none;\n"
-"border-radius: 12px;")
+        self.pushButton_86.setStyleSheet("\n"
+"QPushButton:checked {\n"
+"  background-color: rgb(0, 0, 0);\n"
+"  font: 6pt \"Arial\";\n"
+"  color: rgb(255, 255, 255);\n"
+"  border-radius: 12px;\n"
+"}\n"
+"\n"
+"QPushButton {\n"
+"  /* Set the background color and border for the button */\n"
+"  background-color: rgb(255,255,255);\n"
+"  font: 6pt \"Arial\";\n"
+"  border-radius: 12px;\n"
+"  border-style: none;\n"
+"  color: rgb(0, 0, 0);\n"
+"}")
         self.pushButton_86.setObjectName("pushButton_86")
-        self.Lay_f8.addWidget(self.pushButton_86,0,QtCore.Qt.AlignCenter)
+        self.pushButton_86.setCheckable(True)
+        self.Lay_f81.addWidget(self.pushButton_86,0,QtCore.Qt.AlignLeft)
 
-        self.pushButton_87 = QtWidgets.QPushButton(self.frame_8)
+        self.pushButton_87 = QtWidgets.QPushButton(self.frame_81)
         self.pushButton_87.setGeometry(QtCore.QRect(550, 10, 25, 25)) #35
         self.pushButton_87.setMinimumSize(QtCore.QSize(25, 25))
         self.pushButton_87.setMaximumSize(QtCore.QSize(25, 25))
         self.pushButton_87.setText("2")
-        self.pushButton_87.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"font: 6pt \"Arial\";\n"
-"color: rgb(0, 0, 0);\n"
-"border-style: none;\n"
-"border-radius: 12px;")
+        self.pushButton_87.setStyleSheet("\n"
+"QPushButton:checked {\n"
+"  background-color: rgb(0, 0, 0);\n"
+"  font: 6pt \"Arial\";\n"
+"  color: rgb(255, 255, 255);\n"
+"  border-radius: 12px;\n"
+"}\n"
+"\n"
+"QPushButton {\n"
+"  /* Set the background color and border for the button */\n"
+"  background-color: rgb(255,255,255);\n"
+"  font: 6pt \"Arial\";\n"
+"  border-radius: 12px;\n"
+"  border-style: none;\n"
+"  color: rgb(0, 0, 0);\n"
+"}")
         self.pushButton_87.setObjectName("pushButton_87")
-        self.Lay_f8.addWidget(self.pushButton_87,0,QtCore.Qt.AlignCenter)
+        self.pushButton_87.setCheckable(True)
+        self.Lay_f81.addWidget(self.pushButton_87,0,QtCore.Qt.AlignLeft)
 
-        self.pushButton_88 = QtWidgets.QPushButton(self.frame_8)
+        self.pushButton_88 = QtWidgets.QPushButton(self.frame_81)
         self.pushButton_88.setGeometry(QtCore.QRect(590, 10, 25, 25)) #35
         self.pushButton_88.setMinimumSize(QtCore.QSize(25, 25))
         self.pushButton_88.setMaximumSize(QtCore.QSize(25, 25))
         self.pushButton_88.setText("3")
-        self.pushButton_88.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"font: 6pt \"Arial\";\n"
-"color: rgb(0, 0, 0);\n"
-"border-style: none;\n"
-"border-radius: 12px;")
+        self.pushButton_88.setStyleSheet("\n"
+"QPushButton:checked {\n"
+"  background-color: rgb(0, 0, 0);\n"
+"  font: 6pt \"Arial\";\n"
+"  color: rgb(255, 255, 255);\n"
+"  border-radius: 12px;\n"
+"}\n"
+"\n"
+"QPushButton {\n"
+"  /* Set the background color and border for the button */\n"
+"  background-color: rgb(255,255,255);\n"
+"  font: 6pt \"Arial\";\n"
+"  border-radius: 12px;\n"
+"  border-style: none;\n"
+"  color: rgb(0, 0, 0);\n"
+"}")
         self.pushButton_88.setObjectName("pushButton_88")
-        self.Lay_f8.addWidget(self.pushButton_88,0,QtCore.Qt.AlignCenter)
+        self.pushButton_88.setCheckable(True)
+        self.Lay_f81.addWidget(self.pushButton_88,0,QtCore.Qt.AlignLeft)
 
-        self.pushButton_89 = QtWidgets.QPushButton(self.frame_8)
+        self.pushButton_89 = QtWidgets.QPushButton(self.frame_81, clicked= lambda: self.under_dev())
         self.pushButton_89.setGeometry(QtCore.QRect(630, 10, 25, 25)) #35
         self.pushButton_89.setMinimumSize(QtCore.QSize(25, 25))
         self.pushButton_89.setMaximumSize(QtCore.QSize(25, 25))
         self.pushButton_89.setText("+")
-        self.pushButton_89.setStyleSheet("background-color: rgb(255, 255, 255);\n"
-"font: 8pt \"Arial\";\n"
-"color: #c2c2c2;\n"
-"border-style: none;\n"
-"border-radius: 12px;")
+        self.pushButton_89.setStyleSheet("\n"
+"QPushButton:pressed {\n"
+"  background-color: rgb(0, 0, 0);\n"
+"  font: 6pt \"Arial\";\n"
+"  color: rgb(255, 255, 255);\n"
+"  border-radius: 12px;\n"
+"}\n"
+"\n"
+"QPushButton {\n"
+"  /* Set the background color and border for the button */\n"
+"  background-color: rgb(255,255,255);\n"
+"  font: 6pt \"Arial\";\n"
+"  border-radius: 12px;\n"
+"  border-style: none;\n"
+"  color: rgb(0, 0, 0);\n"
+"}")
         self.pushButton_89.setObjectName("pushButton_89")
-        self.Lay_f8.addWidget(self.pushButton_89,0,QtCore.Qt.AlignCenter)
+        self.pushButton_89.setCheckable(True)
+        self.Lay_f81.addWidget(self.pushButton_89,0,QtCore.Qt.AlignLeft)
+        self.Lay_f81.addStretch(3)
+        
+        self.Lay_f8.addWidget(self.frame_81,0,QtCore.Qt.AlignHCenter)
         self.Lay_f8.addStretch(1)
 
         self.commandLinkButton_5 = QtWidgets.QCommandLinkButton(self.frame_8)
@@ -3795,9 +4013,8 @@ class Ui_NoMad(object):
         self.commandLinkButton_5.setText("Illustrator.exe")
         self.commandLinkButton_5.setStyleSheet("color: #000000;\n"
 "background-color: none;\n"
-"font: 10pt \"Work Sans\";\n"
-"border: none;\n"
-"")
+"font: 12pt \"Work Sans\";\n"
+"border: none;\n")
         icon = QtGui.QIcon()
         pic = self.resource_path("Icons/illustrator.png")
         icon.addPixmap(QtGui.QPixmap(pic), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -3891,7 +4108,7 @@ class Ui_NoMad(object):
         self.Lay_f7.addWidget(self.pushButton_92,0,QtCore.Qt.AlignLeft)
         self.Lay_f7.addStretch(3)
 
-        self.pushButton_9 = QtWidgets.QPushButton(self.frame_7)
+        self.pushButton_9 = QtWidgets.QPushButton(self.frame_7, clicked = lambda: self.save_toggle())
         self.pushButton_9.setGeometry(QtCore.QRect(430, 10, 191, 31))
         self.pushButton_9.setMinimumSize(QtCore.QSize(191, 31))
         self.pushButton_9.setMaximumSize(QtCore.QSize(191, 31))
@@ -3998,11 +4215,8 @@ class Ui_NoMad(object):
         self.pushButton_77.raise_()
         self.pushButton_78.raise_()
         self.commandLinkButton.raise_()
-        # self.pushButton_79.raise_()
-        # self.pushButton_80.raise_()
         self.pushButton_81.raise_()
         self.pushButton_82.raise_()
-        # self.pushButton_83.raise_()
         self.frame_5.raise_()
         self.gridLayout.addWidget(self.frame)
         NoMad.setCentralWidget(self.centralwidget)
@@ -4014,8 +4228,11 @@ class Ui_NoMad(object):
         QtCore.QMetaObject.connectSlotsByName(NoMad)
 
     def retranslateUi(self, NoMad):
+        
         _translate = QtCore.QCoreApplication.translate
         NoMad.setWindowTitle(_translate("NoMad", "Input"))  # MainWindow
+        self.profiles()
+        # NoMad.setWindowFlags(QtCore.Qt.WindowFlags() | QtCore.Qt.FramelessWindowHint)
         self.pushButton.setText(_translate("NoMad", "Esc"))
         self.pushButton_3.setText(_translate("NoMad", "!\n"
 " \n1"))
@@ -4128,7 +4345,32 @@ class Ui_NoMad(object):
         self.lineEdit_4o.setPlaceholderText(_translate("NoMad", "+ add delay"))
         self.addKeystrokeButton_o.setText(_translate("NoMad", "+ Add Keystroke"))
         self.pushButton_o.clicked.connect(self.pushButton_handler)
-        # self.pushButton_2o.clicked.connect(self.show_dialog)
+
+
+        self.last_size = NoMad.size()
+
+        self.timer = QtCore.QTimer()
+        self.timer.timeout.connect(self.check_window_size)
+        self.timer.start(100)  # Check every second (adjust as needed)
+
+
+    def check_window_size(self):  # Using to keep navigations updated
+        current_size = NoMad.size()
+        if current_size != self.last_size:
+            if  self.CreateAction.frameGeometry().width() != 0:
+
+                self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114))
+                self.profiles_area.setGeometry(QtCore.QRect(0, 190, 370, NoMad.frameGeometry().height()-300))
+                
+
+                if self.options.frameGeometry().width() != 0:
+                        
+                        self.options.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114))
+
+                        self.CreateAction.setGeometry(QtCore.QRect(NoMad.frameGeometry().width()-421, 43, 400, NoMad.frameGeometry().height()-114)) # update create action size
+                        self.profiles_area.setGeometry(QtCore.QRect(0, 190, 370, NoMad.frameGeometry().height()-300))
+        
+            self.last_size = current_size
 
 
 if __name__ == "__main__":
