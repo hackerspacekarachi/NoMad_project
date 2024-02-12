@@ -1,0 +1,16 @@
+{
+    "image_path": "A2",
+    "settings": {
+        "action": "DropDown test",
+        "lineEdit_o": "DropDown test",
+        "combobox1": "Backspace",
+        "delay1": "50ms",
+        "combobox2": "Launch (1)",
+        "delay2": "20ms",
+        "combobox3": "Forward",
+        "delay3": "10ms",
+        "checkbox": false,
+        "color": "#ff0000",
+        "txt_bg": "#669172"
+    }
+}
