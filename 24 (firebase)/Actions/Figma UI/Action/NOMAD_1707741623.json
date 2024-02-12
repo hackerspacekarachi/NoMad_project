@@ -1,0 +1,14 @@
+{
+    "image_path": "A1",
+    "settings": {
+        "action": "XYZ",
+        "on_tap": "Shift",
+        "on_hold": "Ctrl",
+        "double_tap": "Tab",
+        "tap_hold": "End",
+        "tapping_terms": "150ms",
+        "checkbox": true,
+        "color": "#ff0000",
+        "txt_bg": "#786921"
+    }
+}
