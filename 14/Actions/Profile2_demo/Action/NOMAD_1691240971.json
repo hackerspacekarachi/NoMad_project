@@ -1,0 +1,14 @@
+{
+    "image_path": "Actions/Profile2_demo/Action/icon/00000324_(2).jpg",
+    "settings": {
+        "action": "Task Manger",
+        "delay": "",
+        "delay2": "",
+        "delay3": "",
+        "combobox1": "",
+        "combobox2": "",
+        "combobox3": "Del",
+        "checkbox": false,
+        "color": "#ff0000"
+    }
+}

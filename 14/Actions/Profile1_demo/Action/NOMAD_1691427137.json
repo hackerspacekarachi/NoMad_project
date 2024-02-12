@@ -1,0 +1,14 @@
+{
+    "image_path": "Actions/Profile1_demo/Action/icon/my_profile.png",
+    "settings": {
+        "action": "New",
+        "delay": "",
+        "delay2": "",
+        "delay3": "",
+        "combobox1": "Printer",
+        "combobox2": "Ctrl",
+        "combobox3": "",
+        "checkbox": false,
+        "color": "#ff0000"
+    }
+}
