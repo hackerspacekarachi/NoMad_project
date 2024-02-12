@@ -1,0 +1,13 @@
+{
+    "image_path": "Actions/Profile2_demo/Action/icon/00000496.jpg",
+    "settings": {
+        "action": "Forest",
+        "delay": "",
+        "delay2": "",
+        "delay3": "",
+        "combobox1": "PgDown",
+        "combobox2": "Ctrl",
+        "combobox3": "Tab",
+        "checkbox": false
+    }
+}
