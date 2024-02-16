@@ -1465,7 +1465,7 @@ class Ui_NoMad(object):
         while(not SETUP):
                 try:
                         # Serial port(windows-->COM), baud rate, timeout msg
-                        port = serial.Serial("COM5", 9600, timeout=1)
+                        port = serial.Serial("COM4", 9600, timeout=1)
 
                 except: # Bad way of writing excepts (always know your errors)
                         if(time.time() - prev > 2): # Don't spam with msg
